@@ -1,0 +1,60 @@
+name: Deploy Conspectus
+
+on:
+  workflow_dispatch:
+
+env:
+  conspectus-dir: ./conspectus
+
+jobs:
+  build:
+    name: Build Docusaurus
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: ${{ env.conspectus-dir }}/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd ${{ env.conspectus-dir }}
+          npm install
+
+      - name: Build website
+        run: |
+          cd ${{ env.conspectus-dir }}
+          npm run build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.conspectus-dir }}/build
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
