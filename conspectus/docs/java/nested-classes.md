@@ -1,5 +1,5 @@
 ---
-slug: /nested-classes
+slug: /java/nested-classes
 title: Nested Classes 🪆
 description: Sealed and nested classes.
 sidebar_position: 7

@@ -1,4 +1,4 @@
-# [Kotlin Roadmap](../roadmap.pdf)
+# Kotlin 🐈
 
 Kotlin is compiled to Java bytecode, which provides the backward compatability. When wishing to see Kotlin in real-life
 use J2K converter can be used to convert part of source code into Kotlin. Another way is to start writing unit tests in
@@ -626,3 +626,7 @@ fun List<Double>.average(): Double { }
 ```
 
 # Collections and Sequences
+
+import PDFViewer from '@site/src/components/PDFViewer';
+
+<PDFViewer fileUrl="/img/roadmap.pdf" />

@@ -1,3 +1,12 @@
+---
+slug: /algos/bigo
+title: Big O Notation 💪
+description: Definition and basic complexities.
+sidebar_position: 1 
+sidebar_custom_props:
+  emoji: 💪 
+---
+
 # Big O
 
 Roughly, your function calculates the number of operations or amount of memory your algorithm consumes relative to the

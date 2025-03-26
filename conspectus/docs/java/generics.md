@@ -1,5 +1,5 @@
 ---
-slug: /generics
+slug: /java/generics
 title: Generics 🧬
 description: Generic typing.
 sidebar_position: 6

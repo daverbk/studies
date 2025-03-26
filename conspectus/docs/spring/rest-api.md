@@ -1,32 +1,13 @@
-# Notes
+---
+slug: /spring/rest-api
+title: Rest API 🤖
+description: Spring goals and Spring Boot.
+sidebar_position: 3
+sidebar_custom_props:
+  emoji: 🤖
+---
 
-<!-- TOC -->
-* [Notes](#notes)
-  * [Web starter is required](#web-starter-is-required)
-  * [Rest controller](#rest-controller)
-  * [Serialization](#serialization)
-  * [Path Variables](#path-variables)
-  * [Exception Handling](#exception-handling)
-  * [Global Exception Handling](#global-exception-handling)
-    * [@ControllerAdvice](#controlleradvice)
-  * [Rest service example](#rest-service-example)
-  * [@Service](#service)
-    * [Purpose of Service Layer](#purpose-of-service-layer)
-    * [Service Layer - Best Practice](#service-layer---best-practice)
-  * [Spring Data JPA](#spring-data-jpa)
-    * [Advanced features available](#advanced-features-available)
-    * [JpaRepository Docs](#jparepository-docs)
-  * [Spring Data REST](#spring-data-rest)
-    * [For Spring Data REST we need](#for-spring-data-rest-we-need)
-    * [Spring Data REST advanced features](#spring-data-rest-advanced-features)
-    * [@RepositoryRestResource](#repositoryrestresource)
-    * [Spring Data Rest Docs](#spring-data-rest-docs)
-    * [Spring Data Configuration Props](#spring-data-configuration-props)
-  * [Different components covered so far](#different-components-covered-so-far)
-  * [Spring Documentation](#spring-documentation)
-  * [Understanding HATEOAS](#understanding-hateoas)
-  * [HAL Data Format](#hal-data-format-)
-<!-- TOC -->
+# Rest API 
 
 ## Web starter is required
 
@@ -125,7 +106,7 @@ public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundExcep
 
 ## Global Exception Handling
 
-### @ControllerAdvice
+### `@ControllerAdvice`
 
 * Pre-process requests to controllers
 * Post-process responses to handle exceptions 
@@ -157,7 +138,7 @@ public class StudentRestExceptionHandler {
 | DELETE      | `/api/employees/{employeeId}` | Delete an existing |
 
 
-## @Service
+## `@Service`
 
 ### Purpose of Service Layer
 
@@ -231,7 +212,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 * Pagination, sorting and searching
 * Extending and adding custom queries with JPQL Query Domain Specific Language (Query DSL)
 
-### @RepositoryRestResource
+### `@RepositoryRestResource`
 
 Specify plural name / path with an annotation
 

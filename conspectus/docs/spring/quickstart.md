@@ -1,19 +1,13 @@
-# Notes 
+---
+slug: /spring/quickstart
+title: Quickstart 🏃‍
+description: Spring goals and Spring Boot.
+sidebar_position: 1
+sidebar_custom_props:
+  emoji: 🏃‍
+---
 
-<!-- TOC -->
-* [Notes](#notes-)
-  * [Spring goals](#spring-goals)
-  * [Standard Directory Structure](#standard-directory-structure)
-  * [Project Coordinates](#project-coordinates)
-  * [Why starters](#why-starters)
-  * [Spring Boot Starter Parent](#spring-boot-starter-parent)
-  * [Spring Boot Dev Tools](#spring-boot-dev-tools)
-  * [Spring Boot Actuator](#spring-boot-actuator)
-  * [Running from the Command-Line](#running-from-the-command-line)
-    * [Using java -jar](#using-java--jar)
-    * [Using maven plugin](#using-maven-plugin)
-  * [Spring Boot Properties](#spring-boot-properties)
-<!-- TOC -->
+# Quickstart
 
 ## Spring goals
 * Lightweight development with Java POJOs (Plain-Old-Java-Objects)

@@ -1,5 +1,5 @@
 ---
-slug: /arrays
+slug: /java/arrays
 title: Arrays 🔗
 description: Arrays. Multi-dimensional arrays.
 sidebar_position: 3

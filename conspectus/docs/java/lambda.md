@@ -1,5 +1,5 @@
 ---
-slug: /lambdas
+slug: /java/lambdas
 title: Lambdas 🎭
 description: Anonymous classes. Lambdas.
 sidebar_position: 8

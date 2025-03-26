@@ -1,5 +1,5 @@
 ---
-slug: /collections
+slug: /java/collections
 title: Collections Framework 🧰
 description: The collections framework.
 sidebar_position: 9

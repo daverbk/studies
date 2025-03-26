@@ -1,5 +1,5 @@
 ---
-slug: /arrays
+slug: /algos/arrays
 title: Arrays 🫥 
 description: Arrays algorithms, their operations complexity.
 sidebar_position: 1

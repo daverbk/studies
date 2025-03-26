@@ -1,5 +1,5 @@
 ---
-slug: /immutables
+slug: /java/immutables
 title: Immutables 🐛
 description: Immutability and how to support it.
 sidebar_position: 10

@@ -1,27 +1,15 @@
-# Notes
+---
+slug: /spring/core
+title: Core 🧱 
+description: IoC, DI and Beans.
+sidebar_position: 2
+sidebar_custom_props:
+  emoji: 🧱
+---
 
-<!-- TOC -->
-* [Notes](#notes)
-  * [Inversion of Control (IoC)](#inversion-of-control-ioc)
-  * [Dependency Injection](#dependency-injection)
-      * [Recommended Injection Types](#recommended-injection-types)
-      * [Which one to use?](#which-one-to-use)
-      * [AutoWiring](#autowiring)
-  * [@Component](#component)
-  * [Scanning for Component Classes](#scanning-for-component-classes)
-  * [Setter Injection](#setter-injection)
-  * [Qualifiers](#qualifiers)
-  * [Primary](#primary)
-  * [Which one: @Primary or @Qualifier?](#which-one-primary-or-qualifier)
-  * [Lazy Initialization](#lazy-initialization)
-  * [Bean Scopes](#bean-scopes)
-      * [Singleton](#singleton)
-      * [Additional Spring Bean Scopes](#additional-spring-bean-scopes)
-  * [Bean Lifecycle Methods](#bean-lifecycle-methods)
-  * [Configuring Beans](#configuring-beans)
-<!-- TOC -->
+# Core
 
-## Inversion of Control (IoC)
+## Inversion of Control
 
 The approach of outsourcing the
 construction and management of objects
@@ -51,7 +39,7 @@ dependencies
 
 Spring will look for a class that matches by type: class or interface and inject it automatically
 
-## @Component
+## `@Component`
 
 * Marks the class as a Spring Bean
 * Makes the bean available for dependency injection
@@ -91,7 +79,7 @@ Inject dependencies by calling setter methods on your class
 
 ## Qualifiers
 
-* Our application can have multiple implementation of an injected interface
+* Our application can have multiple implementations of an injected interface
 * ```java
   @Autowired
   public DemoController(@Qualifier("cricketCoach") Coach coach) {
@@ -111,7 +99,7 @@ Inject dependencies by calling setter methods on your class
   ```
 * If we mix @Primary and @Qualifier, @Qualifier has higher priority
 
-## Which one: @Primary or @Qualifier?
+## Which one: `@Primary` or `@Qualifier`?
 
 * @Primary leaves it up to the implementation classes and could have the issue of multiple @Primary classes leading to an error
 * @Qualifier allows us to be very specific on which bean you want

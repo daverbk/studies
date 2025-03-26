@@ -1,5 +1,5 @@
 ---
-slug: /abstraction
+slug: /java/abstraction
 title: Abstraction 🔮
 description: Abstract classes and Interfaces.
 sidebar_position: 5

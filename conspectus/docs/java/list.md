@@ -1,5 +1,5 @@
 ---
-slug: /list
+slug: /java/list
 title: List 📋
 description: List interface.
 sidebar_position: 4

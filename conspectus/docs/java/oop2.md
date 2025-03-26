@@ -1,5 +1,5 @@
 ---
-slug: /oop2
+slug: /java/oop2
 title: OOP Part 2 📚
 description: Object Oriented Programming Part 2.
 sidebar_position: 2

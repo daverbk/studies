@@ -1,5 +1,5 @@
 ---
-slug: /general-stuff
+slug: /java/general-stuff
 title: Development concepts 🧱
 description: Some important stuff that one tends to forget.
 sidebar_position: 0 

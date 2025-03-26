@@ -1,5 +1,5 @@
 ---
-slug: /io
+slug: /java/io
 title: Input & Output 🦦
 description: Input & Output streams. Exceptions.
 sidebar_position: 11
