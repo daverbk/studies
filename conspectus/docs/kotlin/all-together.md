@@ -15,6 +15,10 @@ Reference on Kotlin conventions
 - [Kotlin for Java developers course part](https://www.coursera.org/learn/kotlin-for-java-developers/lecture/fZtQF/conventions)
 - [Kotlin coding conventions](https://kotlinlang.org/docs/coding-conventions.html)
 
+Kotlin roadmap
+
+- [Kotlin roadmap](/doc/kotlin-roadmap.pdf)
+
 # `class` / `object`
 
 ## Modifiers
@@ -626,7 +630,3 @@ fun List<Double>.average(): Double { }
 ```
 
 # Collections and Sequences
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
-<PDFViewer fileUrl="/img/roadmap.pdf" />

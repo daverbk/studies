@@ -61,13 +61,13 @@ Java class that is mapped to a database table
 * Must be annotated with @Entity
 * Must have a public or protected no-argument constructor
 * The class can have other constructor
-  * Map class to database table
+    * Map class to database table
   ```java
     @Entity
     @Table(name="student")
     public class Student { }
   ```
-  * Map fields to database columns
+    * Map fields to database columns
   ```java
     @Entity
     @Table(name="student")
@@ -82,7 +82,7 @@ Java class that is mapped to a database table
         private String firstName; 
   }
   ```
-  
+
 #### ID Generation Strategies
 
 | Name                    |                                 Description                                 |
@@ -114,9 +114,11 @@ Begins and ends a transaction for your JPA code
 ```java
 // create Java object
 Student theStudent = new Student("Paul", "Doe", "paul@uni.com");
-        
+
 // save it to database
-entityManager.persist(theStudent);
+entityManager.
+
+persist(theStudent);
 ```
 
 ## Retrieving a Java Object
@@ -126,7 +128,9 @@ entityManager.persist(theStudent);
 Student theStudent = new Student("Paul", "Doe", "paul@uni.com");
 
 // save it to database
-entityManager.persist(theStudent);
+entityManager.
+
+persist(theStudent);
 
 // now retrieve from database using the primary key
 int theId = 1;
@@ -140,15 +144,19 @@ Similar in concept to SQL, but JPQL is based on entity name and entity fields
 #### Querying for Java Object
 
 ```java
-TypedQuery<Student> query = entityManager.createQuery("from Student WHERE lastName='Doe'", Student.class);
-List<Student> students= query.getResultList();
+TypedQuery<Student> query = entityManager.createQuery("from Student WHERE lastName='Doe'",
+    Student.class);
+List<Student> students = query.getResultList();
 ```
 
 #### JPQL Named Parameters
 
 ```java
-TypedQuery<Student> theQuery = entityManager.createQuery("FROM Student WHERE lastName=:theData", Student.class);
-theQuery.setParameter("theData", theLastName);
+TypedQuery<Student> theQuery = entityManager.createQuery("FROM Student WHERE lastName=:theData",
+    Student.class);
+theQuery.
+
+setParameter("theData",theLastName);
 ```
 
 ## Update a record
@@ -157,16 +165,20 @@ theQuery.setParameter("theData", theLastName);
 Student student = entityManager.find(Student.class, 1);
 
 // change first name to "Rat"
-student.setFirstName("Rat");
-entityManager.merge(student);
+student.
+
+setFirstName("Rat");
+entityManager.
+
+merge(student);
 ```
 
 #### Update for all
 
 ```java
 int numRowsUpdated = entityManager
-.createQuery("UPDATE Student SET lastName='Rats'”)
-.executeUpdate();
+    .createQuery("UPDATE Student SET lastName='Rats'”)
+        .executeUpdate();
 ```
 
 ## Delete a record
@@ -177,23 +189,25 @@ int id = 1;
 Student theStudent = entityManager.find(Student.class, id);
 
 // delete the student
-entityManager.remove(theStudent);
+entityManager.
+
+remove(theStudent);
 ```
 
 #### Delete based on a condition
 
 ```java
 int numRowsDeleted = entityManager
-.createQuery("DELETE FROM Student WHERE lastName=‘Crazy’")
-.executeUpdate();
+    .createQuery("DELETE FROM Student WHERE lastName=‘Crazy’")
+    .executeUpdate();
 ```
 
 #### Delete all
 
 ```java
 int numRowsDeleted = entityManager
-.createQuery("DELETE FROM Student")
-.executeUpdate();
+    .createQuery("DELETE FROM Student")
+    .executeUpdate();
 ```
 
 ## Create Database Tables from Java Code
@@ -216,13 +230,17 @@ spring.jpa.hibernate.ddl-auto=create
 
 ## Recommendation from Chad
 
-> [!CAUTION] 
-> In general, I don’t recommend auto generation for enterprise, real-time projects 
-> > You can VERY easily drop PRODUCTION data if you are not careful
+:::caution
+In general, I don’t recommend auto generation for enterprise, real-time projects. You can VERY
+easily drop PRODUCTION data if you are not careful.
 
-> [!TIP] 
-> I recommend SQL scripts
-> > * Corporate DBAs prefer SQL scripts for governance and code review 
-> > * The SQL scripts can be customized and fine-tuned for complex database designs 
-> > * The SQL scripts can be version-controlled 
-> > * Can also work with schema migration tools such as Liquibase and Flyway
+:::tip
+
+I recommend SQL scripts
+
+* Corporate DBAs prefer SQL scripts for governance and code review
+* The SQL scripts can be customized and fine-tuned for complex database designs
+* The SQL scripts can be version-controlled
+* Can also work with schema migration tools such as Liquibase and Flyway
+
+:::

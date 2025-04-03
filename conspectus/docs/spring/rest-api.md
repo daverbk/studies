@@ -7,11 +7,12 @@ sidebar_custom_props:
   emoji: 🤖
 ---
 
-# Rest API 
+# Rest API
 
 ## Web starter is required
 
 ```xml
+
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-web</artifactId>
@@ -22,16 +23,16 @@ sidebar_custom_props:
 
 `@RequestMapping` is needed at the class level to express shared mappings
 
-| Mapping type   | Method |
-|----------------|--------|
-| @GetMapping    | GET    |
-| @PostMapping   | POST   |
-| @PutMapping    | PUT    |
-| @DeleteMapping | DELETE |
-| @PatchMapping  | PATCH  |
-
+| Mapping type     | Method |
+|------------------|--------|
+| `@GetMapping`    | GET    |
+| `@PostMapping`   | POST   |
+| `@PutMapping`    | PUT    |
+| `@DeleteMapping` | DELETE |
+| `@PatchMapping`  | PATCH  |
 
 ```java
+
 @RestController
 @RequestMapping("/test")
 public class DemoRestController {
@@ -53,54 +54,66 @@ public class DemoRestController {
 We can bind path variable to method parameter using `@PathVariable`
 
 ```java
+
 @GetMapping("/students/{studentId}")
-public Student getStudent(@PathVariable int studentId) { }
+public Student getStudent(@PathVariable int studentId) {
+}
 ```
 
 ## Exception Handling
 
 1. Create a custom error response class
+
 ```java
 public class StudentErrorResponse {
-  private int status;
-  private String message;
-  private long timeStamp;
-  
-  // constructors
-  // getters / setters
+
+    private int status;
+    private String message;
+    private long timeStamp;
+
+    // constructors
+    // getters / setters
 }
 ```
+
 2. Create a custom exception class
+
 ```java
 public class StudentNotFoundException extends RuntimeException {
 
     public StudentNotFoundException(String message) {
-      super(message);
-    } 
+        super(message);
+    }
 }
 ```
+
 3. Update REST service to throw exception if student not found
+
 ```java
+
 @GetMapping("/students/{studentId}")
 public Student getStudent(@PathVariable int studentId) {
 
     if ((studentId >= theStudents.size()) || (studentId < 0)) {
         throw new StudentNotFoundException("Student id not found - " + studentId);
     }
-    
+
     return theStudents.get(studentId);
 }
 ```
+
 4. Add an exception handler method using @ExceptionHandler
+
 ```java
+
 @ExceptionHandler
 public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException exc) {
     StudentErrorResponse error = new StudentErrorResponse();
-    error.setStatus(HttpStatus.NOT_FOUND.value()); 
-    error.setMessage(exc.getMessage()); 
+    error.setStatus(HttpStatus.NOT_FOUND.value());
+    error.setMessage(exc.getMessage());
     error.setTimeStamp(System.currentTimeMillis());
-    
-    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND); 
+
+    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 }
 ```
 
@@ -109,20 +122,21 @@ public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundExcep
 ### `@ControllerAdvice`
 
 * Pre-process requests to controllers
-* Post-process responses to handle exceptions 
+* Post-process responses to handle exceptions
 
 ```java
+
 @ControllerAdvice
 public class StudentRestExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException exc) {
         StudentErrorResponse error = new StudentErrorResponse();
-        error.setStatus(HttpStatus.NOT_FOUND.value()); 
-        error.setMessage(exc.getMessage()); 
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setMessage(exc.getMessage());
         error.setTimeStamp(System.currentTimeMillis());
-    
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND); 
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }
 ```
@@ -137,7 +151,6 @@ public class StudentRestExceptionHandler {
 | PUT         | `/api/employees`              | Update an existing |
 | DELETE      | `/api/employees/{employeeId}` | Delete an existing |
 
-
 ## `@Service`
 
 ### Purpose of Service Layer
@@ -147,13 +160,14 @@ public class StudentRestExceptionHandler {
 * Integrate data from multiple sources (DAO/repositories)
 
 ```java
+
 @Service
-public class EmployeeServiceImpl implements EmployeeService { 
+public class EmployeeServiceImpl implements EmployeeService {
 // inject EmployeeDAO ...
 
     @Override
     public List<Employee> findAll() {
-        return employeeDAO.findAll(); 
+        return employeeDAO.findAll();
     }
 }
 ```
@@ -163,8 +177,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 * Apply transactional boundaries at the service layer
 * It is the service layer’s responsibility to manage transaction boundaries
 * For implementation code
-  * Apply @Transactional on service methods
-  * Remove @Transactional on DAO methods if they already exist
+    * Apply @Transactional on service methods
+    * Remove @Transactional on DAO methods if they already exist
 
 ## Spring Data JPA
 
@@ -174,41 +188,44 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 ```java
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
-  // that's it :)
+    // that's it :)
 }
 ```
 
 ### Advanced features available
-* Extending and adding custom queries with JPQL 
-* Query Domain Specific Language (Query DSL) 
-* Defining custom methods ([low-level coding](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.at-query))
 
-### [JpaRepository Docs](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html)
+* Extending and adding custom queries with JPQL
+* Query Domain Specific Language (Query DSL)
+* Defining custom
+  methods ([low-level coding](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.at-query))
 
 ## Spring Data REST
 
 * Leverages your existing JpaRepository
 * Spring will give you a REST CRUD implementation
-* Spring Data REST will scan your project for JpaRepository 
+* Spring Data REST will scan your project for JpaRepository
 * Expose REST APIs for each entity type for your JpaRepository
 * By default, Spring Data REST will create endpoints based on entity type
-  * First character of Entity type is lowercase
-  * adds an "s" to the entity
+    * First character of Entity type is lowercase
+    * adds an "s" to the entity
 * Just add Spring Data REST to your Maven POM file
+
 ```xml
+
 <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-data-rest</artifactId>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-data-rest</artifactId>
 </dependency>
 ```
 
 ### For Spring Data REST we need
 
 1. Your entity: `Employee`
-2. JpaRepository: `EmployeeRepository extends JpaRepository` 
+2. JpaRepository: `EmployeeRepository extends JpaRepository`
 3. Maven POM dependency for: `spring-boot-starter-data-rest`
 
 ### Spring Data REST advanced features
+
 * Pagination, sorting and searching
 * Extending and adding custom queries with JPQL Query Domain Specific Language (Query DSL)
 
@@ -217,13 +234,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 Specify plural name / path with an annotation
 
 ```java
-@RepositoryRestResource(path="members")
-public interface EmployeeRepository extends JpaRepository<Employee, Integer> { }
+
+@RepositoryRestResource(path = "members")
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+
+}
 ```
-
-### [Spring Data Rest Docs](https://spring.io/projects/spring-data-rest/)
-
-### [Spring Data Configuration Props](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.data)
 
 ## Different components covered so far
 
@@ -234,8 +250,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> { }
 | `@Service`    | stereotype for service layer                        |
 | `@Controller` | stereotype for presentation layer (spring-mvc)      |
 
-## [Spring Documentation](https://spring.io/projects/spring-boot/)
+## Useful links
 
-## [Understanding HATEOAS](https://en.wikipedia.org/wiki/HATEOAS)
-
-## [HAL Data Format](https://en.wikipedia.org/wiki/Hypertext_Application_Language) 
+* [Spring Documentation](https://spring.io/projects/spring-boot/)
+* [Understanding HATEOAS](https://en.wikipedia.org/wiki/HATEOAS)
+* [HAL Data Format](https://en.wikipedia.org/wiki/Hypertext_Application_Language) 
+* [Spring Data Rest Docs](https://spring.io/projects/spring-data-rest/)
+* [Spring Data Configuration Props](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.data)
+* [JpaRepository Docs](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html)

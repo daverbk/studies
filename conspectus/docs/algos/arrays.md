@@ -2,7 +2,7 @@
 slug: /algos/arrays
 title: Arrays 🫥 
 description: Arrays algorithms, their operations complexity.
-sidebar_position: 1
+sidebar_position: 2
 sidebar_custom_props:
   emoji: 🫥
 ---
