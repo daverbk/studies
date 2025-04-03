@@ -1,0 +1,1 @@
+#### n.b. Prototype scoped beans are lazy by default

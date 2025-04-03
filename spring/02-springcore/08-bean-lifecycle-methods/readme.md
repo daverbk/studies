@@ -1,0 +1,1 @@
+#### n.b. For prototype scoped beans Spring doesn't call the destroy method
