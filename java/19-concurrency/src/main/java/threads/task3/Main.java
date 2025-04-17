@@ -1,13 +1,11 @@
 package threads.task3;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 class ShoeWarehouse {
@@ -18,46 +16,40 @@ class ShoeWarehouse {
         "Nike Air Max",
         "Nike Air Force 1"
     };
-    private static ExecutorService worker;
+    private static final ExecutorService worker = Executors.newFixedThreadPool(3);
 
     public ShoeWarehouse() {
         this.orders = new LinkedList<>();
-        worker = Executors.newFixedThreadPool(3);
     }
 
     public synchronized void receiveOrder(Order order) {
         while (orders.size() > 20) {
+            System.out.println("Too many orders, waiting for the warehouse to be freed");
+        }
+        orders.add(order);
+        System.out.printf("The order #%s has been accepted\n", order.id());
+    }
+
+    public synchronized void fulfillOrders() {
+        while (orders.isEmpty()) {
             try {
-                System.out.println("Too many orders, waiting for the warehouse to be freed");
                 wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        orders.add(order);
-        System.out.printf("The order #%s has been accepted\n", order.id());
         notifyAll();
-    }
-
-    public synchronized List<Future<Order>> fulfillOrders() {
-        List<Future<Order>> processed = new ArrayList<>();
-        while (!orders.isEmpty()) {
-            processed.add(
-                worker.submit(
-                    () -> {
-                        String threadName = Thread.currentThread().getName();
-                        var order = orders.remove(0);
-                        System.out.printf("Order #%s is processed by %s.\n", order.id(),
-                            threadName);
-                        return order;
-                    }
-                )
-            );
-        }
-        return processed;
+        worker.submit(
+            () -> {
+                String threadName = Thread.currentThread().getName();
+                var order = orders.remove(0);
+                System.out.printf("Order #%s is processed by %s.\n", order.id(),
+                    threadName);
+                return order;
+            }
+        );
     }
 }
-
 
 record Order(String id, String item, int quantity) {
 
@@ -85,14 +77,7 @@ public class Main {
             }
         );
 
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
         warehouse.fulfillOrders();
-
         singleThreadExecutor.shutdown();
     }
 }
