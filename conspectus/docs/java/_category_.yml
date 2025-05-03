@@ -3,4 +3,4 @@ position: 3
 link:
   type: generated-index
   slug: /java
-  description: Those docs might be helpful for interviews preps.
+  description: These docs might be helpful for interviews preps. [Official spec](https://docs.oracle.com/javase/specs/index.html).

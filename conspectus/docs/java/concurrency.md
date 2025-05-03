@@ -19,6 +19,61 @@ Process is a unit of execution, that has its own memory space - heap. The heap i
 
 Every Java application runs as a single process, and each process can then have multiple threads within it. Every process has a heap, and every thread has a thread stack.
 
+### Threads accessing memory
+
+```mermaid
+block-beta
+    columns 4
+    title{{"Process"}}:4
+
+    l(["Thread One"])
+    space:2
+    r(["Thread Two"])
+
+    heap(("Heap (shared)\n Objects")):4
+    l --> heap
+    r --> heap
+
+    block:stack1:2
+        columns 1
+        stack1m("Stack memory")
+        lv1("Local variable")
+        ma1("Method argument")
+    end
+    space
+    block:stack2:2
+        columns 1
+        stack2m("Stack memory")
+        lv2("Local variable")
+        ma2("Method argument")
+    end
+
+    l --"Only Thread One \ncan access its stack"--> stack1
+    r --"Only Thread Two \ncan access its stack"--> stack2
+
+    style l fill:#90EE90, stroke:none
+    style stack1 fill:#90EE90
+    style r fill:#ADD8E6, stroke:none
+    style stack2 fill:#ADD8E6
+    style heap fill:none,stroke:black
+    style title fill:none,stroke:none
+    style stack1m fill:none,stroke:none
+    style stack2m fill:none,stroke:none
+```
+
+Each thread has its own stack for local variables and method calls. One thread doesn't have access to another thread's stack. Every concurrent thread additionally has access to the process memory, or the heap. This is where objects and their data reside. This shared memory space allows all threads, to read and modify the same objects. When one thread changes an object on the heap, these changes are visible to other threads.
+
+### Time Slicing
+
+It's a technique used in multitasking operating systems, to allow multiple threads or processes to share a single CPU for execution. Available CPU time is sliced into small time intervals, which are divvied out to the threads. Each thread gets that interval, to attempt to make some progress, on the tasks it has to do. Whether it completes its task or not, in that time slice, doesn't matter to the thread management system. When the time is up, it has to yield to another thread, and wait until its turn again.
+
+### [JMM](https://jenkov.com/tutorials/java-concurrency/java-memory-model.html)
+
+The Java Memory Model, is a specification that defines some rules and behaviors for threads, to help control and manage shared access to data, and operations.
+
+- Atomicity of Operations. Few operations are truly atomic.
+- Synchronization is the process of controlling threads' access to shared resources.
+
 ## Java's Threads
 
 ### `java.util.Thread`
