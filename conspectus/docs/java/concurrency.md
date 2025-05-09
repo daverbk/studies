@@ -2,7 +2,7 @@
 slug: /java/concurrency
 title: Concurrency 🧵
 description: Multithreading in Java.
-sidebar_position: 10 
+sidebar_position: 12
 sidebar_custom_props:
   emoji: 🧵 
 ---
@@ -20,6 +20,8 @@ Process is a unit of execution, that has its own memory space - heap. The heap i
 Every Java application runs as a single process, and each process can then have multiple threads within it. Every process has a heap, and every thread has a thread stack.
 
 ### Threads accessing memory
+
+Each thread has its own stack for local variables and method calls. One thread doesn't have access to another thread's stack. Every concurrent thread additionally has access to the process memory, or the heap. This is where objects and their data reside. This shared memory space allows all threads, to read and modify the same objects. When one thread changes an object on the heap, these changes are visible to other threads.
 
 ```mermaid
 block-beta
@@ -51,28 +53,28 @@ block-beta
     l --"Only Thread One \ncan access its stack"--> stack1
     r --"Only Thread Two \ncan access its stack"--> stack2
 
-    style l fill:#90EE90, stroke:none
-    style stack1 fill:#90EE90
-    style r fill:#ADD8E6, stroke:none
-    style stack2 fill:#ADD8E6
-    style heap fill:none,stroke:black
+    style l fill:#355E3B, stroke:none
+    style stack1 fill:#355E3B
+    style r fill:#6082B6, stroke:none
+    style stack2 fill:#6082B6
+    style heap fill:none,stroke:none
     style title fill:none,stroke:none
     style stack1m fill:none,stroke:none
     style stack2m fill:none,stroke:none
 ```
 
-Each thread has its own stack for local variables and method calls. One thread doesn't have access to another thread's stack. Every concurrent thread additionally has access to the process memory, or the heap. This is where objects and their data reside. This shared memory space allows all threads, to read and modify the same objects. When one thread changes an object on the heap, these changes are visible to other threads.
-
 ### Time Slicing
 
 It's a technique used in multitasking operating systems, to allow multiple threads or processes to share a single CPU for execution. Available CPU time is sliced into small time intervals, which are divvied out to the threads. Each thread gets that interval, to attempt to make some progress, on the tasks it has to do. Whether it completes its task or not, in that time slice, doesn't matter to the thread management system. When the time is up, it has to yield to another thread, and wait until its turn again.
 
-### [JMM](https://jenkov.com/tutorials/java-concurrency/java-memory-model.html)
+### [JMM](https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4)
 
 The Java Memory Model, is a specification that defines some rules and behaviors for threads, to help control and manage shared access to data, and operations.
 
 - Atomicity of Operations. Few operations are truly atomic.
 - Synchronization is the process of controlling threads' access to shared resources.
+
+A good article on Java Happens before
 
 ## Java's Threads
 
@@ -210,14 +212,14 @@ If we execute the `run90` method, it's executed _synchronously_, by the running 
 
 ### States
 
-| Status        | Meaning                                                                                                              |
-|---------------|----------------------------------------------------------------------------------------------------------------------|
-| NEW           | A thread that has not yet started is in this state                                                                   |
-| RUNNABLE      | A thread executing in the Java virtual machine is in this state                                                      |
-| BLOCKED       | A thread that is blocked waiting for a monitor lock is in this state                                                 |
-| WAITING       | A thread that is waiting indefinitely for another thread to perform a particular action is in this state             |
-| TIMED_WAITING | A thread that is waiting for another thread to perform an action for up to a specified waiting time is in this state |
-| TERMINATED    | A thread that has exited is in this state                                                                            |
+| Status          | Meaning                                                                                                              |
+|-----------------|----------------------------------------------------------------------------------------------------------------------|
+| `NEW`           | A thread that has not yet started is in this state                                                                   |
+| `RUNNABLE`      | A thread executing in the Java virtual machine is in this state                                                      |
+| `BLOCKED`       | A thread that is blocked waiting for a monitor lock is in this state                                                 |
+| `WAITING`       | A thread that is waiting indefinitely for another thread to perform a particular action is in this state             |
+| `TIMED_WAITING` | A thread that is waiting for another thread to perform an action for up to a specified waiting time is in this state |
+| `TERMINATED`    | A thread that has exited is in this state                                                                            |
 
 ## Links
 
