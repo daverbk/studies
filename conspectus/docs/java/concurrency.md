@@ -359,6 +359,12 @@ When method calls are executed from the same thread, any nested calls which try 
 the lock, won't block, because the current thread already has it. Without this, threads could block
 indefinitely.
 
+### [`wait()`](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-), [`notify()`](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notify--), [`notifyAll()`](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notifyAll--)
+
+Are used to manage some monitor lock situations, to prevent threads from blocking indefinitely.
+Because these methods are on `Object`, any instance of any class, can execute these methods, from
+within a `synchronized` method or statement.
+
 ## Links
 
 [An interesting aricle on mutlithreading in Spring](https://www.stefankreidel.io/blog/spring-webmvc-servlet-threading)
