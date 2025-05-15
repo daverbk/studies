@@ -365,6 +365,25 @@ Are used to manage some monitor lock situations, to prevent threads from blockin
 Because these methods are on `Object`, any instance of any class, can execute these methods, from
 within a `synchronized` method or statement.
 
+There are a few pieces of docs that are important here
+
+1. A _spurious wakeup_ might happen, so a thread might wake up without being notified, interrupted,
+   or timing out, so `wait()` must be used in a loop of some kind like
+
+```java
+synchronized (obj) {
+         while (<condition does not hold>)
+             obj.wait(timeout);
+         ... // Perform action appropriate to condition
+     }
+```
+
+2. There are three ways of a thread becoming the owner of the object's monitor
+
+- By executing a `synchronized` instance method of that object
+- By executing the body of a `synchronized` statement that synchronizes on the object
+- For objects of type Class, by executing a `synchronized` static method of that class
+
 ## Links
 
 [An interesting aricle on mutlithreading in Spring](https://www.stefankreidel.io/blog/spring-webmvc-servlet-threading)
