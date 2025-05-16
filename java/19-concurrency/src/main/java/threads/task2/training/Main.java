@@ -9,24 +9,27 @@ record Order(long id, String shoeType, int quantity) {
 
 class Warehouse {
 
-    private final List<Order> orders = new LinkedList<>();
+    private final List<Order> orders;
+
+    Warehouse() {
+        this.orders = new LinkedList<>();
+    }
 
     public synchronized void receiveOrder(Order order) {
-        while (orders.size() >= 20) {
+        while (orders.size() > 20) {
             try {
+                System.out.println("Too many orders, waiting for the warehouse to be freed");
                 wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
         orders.add(order);
-        System.out.println(
-            "Thread " + Thread.currentThread().getName() + " has received order " + order.id()
-        );
+        System.out.printf("The order #%s has been accepted\n", order.id());
         notifyAll();
     }
 
-    public synchronized void fulfillOrder() {
+    public synchronized Order fulfillOrder() {
         while (orders.isEmpty()) {
             try {
                 wait();
@@ -34,12 +37,11 @@ class Warehouse {
                 throw new RuntimeException(e);
             }
         }
-        var processedOrder = orders.remove(0);
-        System.out.println(
-            "Thread " + Thread.currentThread().getName() + " has processed order No "
-                + processedOrder.id()
-        );
+        String threadName = Thread.currentThread().getName();
+        var order = orders.remove(0);
+        System.out.printf("Order #%s is processed by %s.\n", order.id(), threadName);
         notifyAll();
+        return order;
     }
 }
 
@@ -48,16 +50,18 @@ class Main {
     public static void main(String[] args) {
         var warehouse = new Warehouse();
 
-        var producerThread = new Thread(() -> {
-            for (int i = 1; i <= 50; i++) {
-                warehouse.receiveOrder(new Order(100000 + i, "Mega Cool Shoe", i));
+        Thread producer = new Thread(() -> {
+            for (int i = 1; i <= 10; i++) {
+                warehouse.receiveOrder(
+                    new Order(100000 + i, "Mega Cool Shoe", i)
+                );
             }
         });
-        producerThread.start();
+        producer.start();
 
         for (int i = 0; i < 2; i++) {
-            var consumer = new Thread(() -> {
-                for (int j = 0; j < 25; j++) {
+            Thread consumer = new Thread(() -> {
+                for (int j = 0; j < 5; j++) {
                     warehouse.fulfillOrder();
                 }
             });
