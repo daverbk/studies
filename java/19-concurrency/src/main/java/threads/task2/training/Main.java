@@ -2,8 +2,9 @@ package threads.task2.training;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
-record Order(long id, String shoeType, int quantity) {
+record Order(String id, String shoeType, int quantity) {
 
 }
 
@@ -16,7 +17,7 @@ class Warehouse {
     }
 
     public synchronized void receiveOrder(Order order) {
-        while (orders.size() > 20) {
+        while (orders.size() > 10) {
             try {
                 System.out.println("Too many orders, waiting for the warehouse to be freed");
                 wait();
@@ -51,9 +52,9 @@ class Main {
         var warehouse = new Warehouse();
 
         Thread producer = new Thread(() -> {
-            for (int i = 1; i <= 10; i++) {
+            for (int i = 1; i <= 100; i++) {
                 warehouse.receiveOrder(
-                    new Order(100000 + i, "Mega Cool Shoe", i)
+                    new Order(UUID.randomUUID().toString(), "Mega Cool Shoe", i)
                 );
             }
         });
@@ -61,7 +62,7 @@ class Main {
 
         for (int i = 0; i < 2; i++) {
             Thread consumer = new Thread(() -> {
-                for (int j = 0; j < 5; j++) {
+                for (int j = 0; j < 50; j++) {
                     warehouse.fulfillOrder();
                 }
             });
