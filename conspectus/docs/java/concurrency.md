@@ -399,6 +399,47 @@ lock is pretty easy to use, but it does have limitations.
 The `Lock` Interface, and some of the provided implementations, can give us a bit more control, and
 flexibility over locking, and when and how to block threads.
 
+- [`ReentrantLock`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html)
+- [`ReentrantReadWriteLock`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html)
+
+```mermaid
+classDiagram
+    class Lock {
+        +lock()
+        +lockInterruptibly()
+        +tryLock()
+        +tryLock(long, TimeUnit)
+        +unlock()
+        +newCondition()
+    }
+
+    class ReentrantLock {
+        +lock()
+        +unlock()
+        +tryLock()
+        +isHeldByCurrentThread()
+        +getHoldCount()
+    }
+
+    class ReadWriteLock {
+        +readLock() Lock
+        +writeLock() Lock
+    }
+
+    class ReentrantReadWriteLock {
+        +readLock() Lock
+        +writeLock() Lock
+        +isWriteLocked()
+        +getReadLockCount()
+        +getWriteHoldCount()
+    }
+
+    Lock <|.. ReentrantLock
+    ReadWriteLock <|.. ReentrantReadWriteLock
+    Lock <|.. ReadWriteLock : "readLock(), writeLock() return Lock"
+
+```
+
 ## Links
 
 [An interesting aricle on mutlithreading in Spring](https://www.stefankreidel.io/blog/spring-webmvc-servlet-threading)
