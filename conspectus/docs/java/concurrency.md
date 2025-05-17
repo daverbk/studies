@@ -384,6 +384,21 @@ synchronized (obj) {
 - By executing the body of a `synchronized` statement that synchronizes on the object
 - For objects of type Class, by executing a `synchronized` static method of that class
 
+## Locks
+
+The purpose of a lock is to control access to a shared resource by multiple threads. The monitor
+lock is pretty easy to use, but it does have limitations.
+
+- There's no way to test if the intrinsic lock has already been acquired
+- There's no way to interrupt a blocked thread
+- There's not an easy way to debug, or examine the intrinsic lock
+- The intrinsic lock is an exclusive lock
+
+### `java.util.concurrent.locks`
+
+The `Lock` Interface, and some of the provided implementations, can give us a bit more control, and
+flexibility over locking, and when and how to block threads.
+
 ## Links
 
 [An interesting aricle on mutlithreading in Spring](https://www.stefankreidel.io/blog/spring-webmvc-servlet-threading)
