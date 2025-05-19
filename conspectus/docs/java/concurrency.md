@@ -437,7 +437,18 @@ classDiagram
     Lock <|.. ReentrantLock
     ReadWriteLock <|.. ReentrantReadWriteLock
     Lock <|.. ReadWriteLock : "readLock(), writeLock() return Lock"
+```
 
+#### `ReentrantLock`
+
+- Explicit locking (`lock()` and `unlock()`)
+- Reentrancy: same thread can lock multiple times
+- `tryLock()`: non-blocking attempt to acquire a lock
+- `lockInterruptibly()`: allows interruption
+- Fairness is possible: queue threads in order of arrival
+
+```java
+new ReentrantLock(true);
 ```
 
 ## Links
