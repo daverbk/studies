@@ -399,8 +399,27 @@ lock is pretty easy to use, but it does have limitations.
 The `Lock` Interface, and some of the provided implementations, can give us a bit more control, and
 flexibility over locking, and when and how to block threads.
 
-- [`ReentrantLock`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html)
-- [`ReentrantReadWriteLock`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html)
+The hold count of a lock counts the number of times that a single thread, the owner of the lock, has
+acquired the lock.
+
+1. When a thread acquires a lock for the first time, the lock's hold count is set to one
+2. If a lock is re-entrant, and a thread, reacquires the same lock, the lock's hold count will get
+   incremented
+3. When a thread releases a lock, the lock's hold count is decremented
+4. A lock is only released when it's hold count becomes zero
+
+Because of this, it's really important to include a call to the unlock method in a `finally` clause,
+of any code that will acquire a lock, even if it's re-entrant.
+
+Advantages of using `Lock` implementations
+
+- Explicit control over when to acquire and release locks, making it easier to avoid deadlocks, and
+  manage other concurrency challenges
+- Timeouts allow us to attempt to acquire a lock without blocking indefinitely
+- Along with timeouts, Interruptible Locking lets us handle interruptions during acquisition more
+  gracefully
+- Improved Debugging methods let us query the number of waiting threads, and check if a thread
+  holds a lock
 
 ```mermaid
 classDiagram
@@ -439,7 +458,7 @@ classDiagram
     Lock <|.. ReadWriteLock : "readLock(), writeLock() return Lock"
 ```
 
-#### `ReentrantLock`
+#### [`ReentrantLock`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html)
 
 - Explicit locking (`lock()` and `unlock()`)
 - Reentrancy: same thread can lock multiple times
@@ -451,7 +470,7 @@ classDiagram
 new ReentrantLock(true);
 ```
 
-#### `ReentrantReadWriteLock`
+#### [`ReentrantReadWriteLock`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html)
 
 `ReentrantReadWriteLock`s can be used to improve concurrency in some uses of some kinds of
 `Collection`s. This is typically worthwhile only when the collections are expected to be large,
