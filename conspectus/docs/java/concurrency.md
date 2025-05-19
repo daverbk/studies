@@ -451,6 +451,22 @@ classDiagram
 new ReentrantLock(true);
 ```
 
+#### `ReentrantReadWriteLock`
+
+`ReentrantReadWriteLock`s can be used to improve concurrency in some uses of some kinds of
+`Collection`s. This is typically worthwhile only when the collections are expected to be large,
+accessed by more reader threads than writer threads, and entail operations with overhead that
+outweighs synchronization overhead.
+
+- Multiple readers at the same time
+- Only one writer, and no readers during writing
+
+```java
+ReadWriteLock rwLock = new ReentrantReadWriteLock();
+Lock readLock = rwLock.readLock();
+Lock writeLock = rwLock.writeLock();
+```
+
 ## Links
 
 [An interesting aricle on mutlithreading in Spring](https://www.stefankreidel.io/blog/spring-webmvc-servlet-threading)
