@@ -486,6 +486,22 @@ Lock readLock = rwLock.readLock();
 Lock writeLock = rwLock.writeLock();
 ```
 
+## [`ExecutorService`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ExecutorService.html)
+
+`ExecutorService` classes exist to manage the creation and execution of threads. Managing threads
+manually can be complex and error-prone. It can lead to complex issues like resource contention,
+thread creation overhead, and scalability challenges. For these reasons, you'll want to use an
+`ExecutorService`, even when working with a single thread.
+
+Java provides several implementations of `ExecutorService` type which provide the following benefits:
+
+- Simplify thread management, by abstracting execution, to the level of tasks which need to be run
+- Use Thread Pools, reducing the cost of creating new threads
+- Efficient Scaling, by utilizing multiple processor cores
+- Built-in synchronization, reducing concurrency-related errors
+- Graceful Shutdown, preventing resource leaks
+- Scheduled implementations exist to further help with management workflows
+
 ## Links
 
 [An interesting aricle on mutlithreading in Spring](https://www.stefankreidel.io/blog/spring-webmvc-servlet-threading)
