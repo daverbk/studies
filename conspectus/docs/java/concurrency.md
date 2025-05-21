@@ -396,7 +396,9 @@ lock is pretty easy to use, but it does have limitations.
 
 ### `java.util.concurrent.locks`
 
-The `Lock` Interface, and some of the provided implementations, can give us a bit more control, and
+The [
+`Lock`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/Lock.html)
+Interface, and some of the provided implementations, can give us a bit more control, and
 flexibility over locking, and when and how to block threads.
 
 The hold count of a lock counts the number of times that a single thread, the owner of the lock, has
@@ -424,33 +426,46 @@ Advantages of using `Lock` implementations
 ```mermaid
 classDiagram
     class Lock {
-        +lock()
-        +lockInterruptibly()
-        +tryLock()
-        +tryLock(long, TimeUnit)
-        +unlock()
-        +newCondition()
+        lock()
+        lockInterruptibly()
+        tryLock()
+        tryLock(long, TimeUnit)
+        unlock()
+        newCondition()
     }
 
     class ReentrantLock {
-        +lock()
-        +unlock()
-        +tryLock()
-        +isHeldByCurrentThread()
-        +getHoldCount()
+        isLocked()
+        isFair()
+        isHeldByCurrentThread()
+        hasWaiters(Condition)
+        hasQueuedThreads()
+        hasQueuedThread(Thread)
+        getQueueLength()
+        getQueuedThreads()
+        getWaitQueueLength(Condition)
+        getWaitingThreads(Condition)
+        getHoldCount()
+        getOwner()
     }
 
     class ReadWriteLock {
-        +readLock() Lock
-        +writeLock() Lock
+        readLock() Lock
+        writeLock() Lock
     }
 
     class ReentrantReadWriteLock {
-        +readLock() Lock
-        +writeLock() Lock
-        +isWriteLocked()
-        +getReadLockCount()
-        +getWriteHoldCount()
+        isWriteLocked()
+        getReadLockCount()
+        getReadHoldCount()
+        getWriteHoldCount()
+        getOwner()
+        isFair()
+        hasQueuedThreads()
+        hasQueuedThread(Thread)
+        getQueueLength()
+        getWaitingThreads(Condition)
+        getQueuedThreads()
     }
 
     Lock <|.. ReentrantLock
@@ -490,17 +505,94 @@ Lock writeLock = rwLock.writeLock();
 
 `ExecutorService` classes exist to manage the creation and execution of threads. Managing threads
 manually can be complex and error-prone. It can lead to complex issues like resource contention,
-thread creation overhead, and scalability challenges. For these reasons, you'll want to use an
+thread creation overhead, and scalability challenges. For these reasons, we'll want to use an
 `ExecutorService`, even when working with a single thread.
 
 Java provides several implementations of `ExecutorService` type which provide the following benefits:
 
 - Simplify thread management, by abstracting execution, to the level of tasks which need to be run
-- Use Thread Pools, reducing the cost of creating new threads
+- Use Thread Pools, reducing the cost of creating new threads (which can be expensive)
 - Efficient Scaling, by utilizing multiple processor cores
 - Built-in synchronization, reducing concurrency-related errors
 - Graceful Shutdown, preventing resource leaks
 - Scheduled implementations exist to further help with management workflows
+
+`ExecutorService` implementations let us stay focused on tasks that need to be run, rather than
+thread creation and management. A thread pool mitigates the cost of thread creation and destruction,
+by keeping a set of threads around, in a pool, for current and future work. Threads, once they
+complete one task, can then be reassigned to another task, without the expense of destroying that
+thread and creating a new one.
+
+### The mechanics of a thread pool
+
+A thread pool consists of three components:
+
+1. **Worker Threads** are available in a pool to execute tasks. They're pre-created and kept alive,
+   throughout the lifetime of the application.
+2. **Submitted Tasks** are placed in a First-In First-Out queue. Threads pop tasks from the queue, and
+   execute them, so they're executed in the order they're submitted.
+3. **The Thread Pool Manager** allocates tasks to threads, and ensures proper thread synchronization.
+
+### Thread Pool classes
+
+| Class                 | Description                                                                      | Executors Method         |
+|-----------------------|----------------------------------------------------------------------------------|--------------------------|
+| `FixedThreadPool`     | Has a fixed number of threads                                                    | `newFixedThreadPool`     |
+| `CachedThreadPool`    | Creates new threads as needed, a variable size pool                              | `newCachedThreadPool`    |
+| `ScheduledThreadPool` | Can schedule tasks to run at a specific time or repeatedly at regular intervals  | `newScheduledThreadPool` |
+| `WorkStealingPool`    | Uses a work-stealing algorithm to distribute tasks among the threads in the pool | `newWorkStealingPool`    |
+| `ForkJoinPool`        | Specialized `WorkStealingPool` for executing `ForkJoinTasks`                     | n/a                      |
+
+### `Runnable` and `Callable`
+
+Significantly, compared to `Runnable`, `Callable` returns a value
+
+| `Runnable`'s Functional Method | `Callable`'s Functional Method |
+|--------------------------------|--------------------------------|
+| `void run()`                   | `V call() throws Exception`    |
+
+### `execute()` vs `submit()`
+
+| Method      | Signature                                                                                                                          |
+|-------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `execute()` | `void execute(Runnable command)`                                                                                                   |
+| `submit()`  | `Future<?> submit(Runnable task)`<br/>`<T> Future<T> submit(Runnable task, T result)`<br/>`<T> Future<T> submit(Callable<T> task)` |
+
+### The [`Future<V>`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Future.html) interface
+
+```mermaid
+classDiagram
+    class Future~V~ {
+        V get()
+        V get(long, TimeUnit)
+        boolean cancel(boolean)
+        boolean isCancelled()
+        boolean isDone()
+    }
+```
+
+A `Future` represents a result, of an asynchronous computation. It's a generic type, a placeholder
+for a result instance. It has methods that cancel the task, retrieve the result, or check if the
+computation was completed or cancelled. The `get()` method returns the result, but we can only call
+this `get()` method, when the computation is complete, otherwise the call will block, until it does
+complete. The overloaded version of the `get()` method allows us to specify a wait time, rather than
+blocking.
+
+#### [`CompletableFuture<T>`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletableFuture.html)
+
+`CompletableFuture`s allow
+
+- Non-blocking callbacks 
+- Chaining of multiple tasks
+
+#### `invokeAll()` vs `invokeAny()`
+
+| Characteristic | `invokeAny()`                                                                                                              | `invokeAll()`                                                                                                                  |
+|----------------|----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| Tasks Executed | At least one, the first to complete                                                                                        | All tasks get executed                                                                                                         |
+| Result         | Result of the first task to complete, not a `Future`                                                                       | Returns a list of results, as futures, for all of the tasks, once they have all completed                                      |
+| Use cases      | We shall use this method when we need a quick response back from one of several tasks, and we don't care if some will fail | We shall use this method when we want all the tasks to be executed concurrently, and all tasks must complete before proceeding |
+
 
 ## Links
 
