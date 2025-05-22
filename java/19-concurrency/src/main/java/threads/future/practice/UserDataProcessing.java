@@ -26,21 +26,21 @@ public class UserDataProcessing {
             return new UserProfile("Endgar", "Smith");
         });
 
-        userProfileDataFuture.thenRun(() -> System.out.println("User profile data is ready"));
+        userProfileDataFuture.thenRunAsync(() -> System.out.println("User profile data is ready"));
 
         var userPreferencesDataFuture = CompletableFuture.supplyAsync(() -> {
             sleepRandom(5000);
             return new UserPreferences(true, "en");
         });
 
-        userPreferencesDataFuture.thenRun(() -> System.out.println("User preferences data is ready"));
+        userPreferencesDataFuture.thenRunAsync(() -> System.out.println("User preferences data is ready"));
 
         userProfileDataFuture
-            .thenCombine(userPreferencesDataFuture, (profile, prefs) -> {
+            .thenCombineAsync(userPreferencesDataFuture, (profile, prefs) -> {
                 sleepRandom(5000);
                 return new UserSummary(profile.name(), prefs.darkMode());
             })
-            .thenAccept(summary -> System.out.println("Final summary: " + summary))
+            .thenAcceptAsync(summary -> System.out.println("Final summary: " + summary))
             .join(); // wait for completion
     }
 
