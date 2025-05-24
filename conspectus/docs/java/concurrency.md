@@ -543,6 +543,15 @@ A thread pool consists of three components:
 | `WorkStealingPool`    | Uses a work-stealing algorithm to distribute tasks among the threads in the pool | `newWorkStealingPool`    |
 | `ForkJoinPool`        | Specialized `WorkStealingPool` for executing `ForkJoinTasks`                     | n/a                      |
 
+#### `WorkStealingPool`
+
+The work stealing thread pool is used for parallelism, and concurrent execution of tasks. Each
+worker thread has its own task queue. When a worker thread finishes its own tasks, and its queue is
+empty, it can "steal" tasks from the back of other worker threads' queues.
+
+The `ForkJoinPool` class is Java's implementation of the Work Stealing Pool. The
+`newWorkStealingPool` actually creates an instance of `ForkJoinPool` under the hood.
+
 ### `Runnable` and `Callable`
 
 Significantly, compared to `Runnable`, `Callable` returns a value
@@ -593,6 +602,172 @@ blocking.
 | Result         | Result of the first task to complete, not a `Future`                                                                       | Returns a list of results, as futures, for all of the tasks, once they have all completed                                      |
 | Use cases      | We shall use this method when we need a quick response back from one of several tasks, and we don't care if some will fail | We shall use this method when we want all the tasks to be executed concurrently, and all tasks must complete before proceeding |
 
+## Parallel Streams
+
+Via an intermediate `.parallel()` we can make a stream execute in a concurrent parallel mode.
+
+The key advantages of parallel streams are
+
+- Improved performance on multi-core CPUs
+- Simplified code for concurrent processing
+- Automatic workload distribution among available threads
+
+Parallel streams are not the best choice when the data is not large enough to justify the overhead
+of parallel processing.
+
+- Parallel streams introduce some overhead, such as the need to create and manage multiple threads.
+  This overhead can be significant for small arrays
+- Parallel streams need to synchronize their operations to ensure that the results are correct. This
+  synchronization can also add overhead, especially for small arrays
+
+## Synchronized and concurrent collections
+
+Both concurrent and synchronized collections are thread-safe, and can be used in parallel streams,
+or in a multithreaded application. Concurrent collections are recommended over synchronized
+collections in most scenarios.
+
+- **Synchronized collections** are implemented using locks which protect the collection from
+  concurrent access. This means a single lock is used to synchronize access to the entire map
+- **Concurrent collections** are more efficient than synchronized collections, because they use
+  techniques like fine-grained locking, or non-blocking algorithms to enable safe concurrent access
+  without the need for heavy-handed locking, meaning synchronized or single access locks
+
+### Concurrent Collections
+
+### Lists and Arrays
+
+`LinkedList` and `ArrayList`, as well as `TreeSet` and `HashSet`, are **NOT thread-safe**. Each of
+these can be used with a synchronized wrapper, which we can get from the `Collections` helper class.
+The synchronized wrappers provide a thread-safe option for us, with less impact on the design, if
+we need to make existing code work concurrently. When starting from scratch with new code though, its 
+recommend to use concurrent collections.
+
+For lists, there are two concurrent collection choices, depending on the type of work which needs to
+be done in parallel.
+
+- We shall use `ConcurrentLinkedQueue` when we'll have frequent insertions and removals, such as
+  producer-consumer scenarios, or task scheduling
+- Use `CopyOnWriteArrayList` when we have a read-heavy workload with infrequent modifications. This
+  type of list is useful for scenarios like configuration management, or read-only views of data
+
+For array, we can use `ArrayBlockingQueue`. This is a fixed-size queue, that blocks under two
+circumstances. The first is if we try to poll or remove an element from an empty queue. The second
+is if we try to offer, or add an element to a full queue. This is designed as a First In First Out
+or FIFO queue.
+
+### Maps
+
+| Class                   | Sorted | Blocking | Thread-safe |
+|-------------------------|:------:|:--------:|:-----------:|
+| `HashMap`               |   ❌    |    ❌     |      ❌      |
+| `TreeMap`               |   ✅    |    ❌     |      ❌      |
+| `ConcurrentHashMap`     |   ❌    |    ❌     |      ✅      |
+| `ConcurrentSkipListMap` |   ✅    |    ❌     |      ✅      |
+| `SynchronizedMap`       |   ✅    |    ✅     |      ✅      |
+
+#### `CopyOnWriteArrayList`
+
+Whenever this list is modified, by adding, updating, or removing elements, a new copy of the
+underlying array is created. The modification is performed on the new copy, allowing concurrent read
+operations to use the original unmodified array. This ensures that reader threads aren't blocked by
+writers. Since changes are made to a separate copy of the array, there aren't any synchronization
+issues between the reading and writing threads. This is ordinarily too costly, but may be more
+efficient than alternatives when traversal operations, vastly outnumber mutations.
+
+## [`WatchService`](https://docs.oracle.com/javase/8/docs/api/java/nio/file/WatchService.html) Interface
+
+This is a special type of service, which watches registered objects for changes and events. For
+example, a file manager may use a watch service, to monitor a directory for changes, so that it can
+update its display of the list of files, when files are created or deleted.
+
+## [`java.util.concurrency.atomic`](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/package-summary.html)
+
+| Single Element    | Array of Elements      |
+|-------------------|------------------------|
+| `AtomicBoolean`   | n/a                    |
+| `AtomicInteger`   | `AtomicIntegerArray`   |
+| `AtomicLong`      | `AtomicLongArray`      |
+| `AtomicReference` | `AtomicReferenceArray` |
+
+A small toolkit of classes that support lock-free, thread-safe programming on single variables.
+These classes can significantly improve the performance of concurrent applications, especially in
+high-throughput systems.
+
+Atomics use the CAS (Compare and Swap) algorithm on CPU level to ensure that updates to a variable
+are atomic. This means a similar to a spinlock action.
+
+```
+if (current_value == expected_value) {
+    current_value = new_value;
+    return true;
+} else {
+    return false;
+}
+```
+
+## Common problems in multithreaded applications
+
+| Problem        | Description                                                                                          |
+|----------------|------------------------------------------------------------------------------------------------------|
+| Deadlock       | Two or more threads are blocked, waiting for each other to release a resource.                       |
+| Livelock       | Two or more threads are continuously looping, each waiting for the other thread to take some action. |
+| Race Condition | Threads clash over shared data resulting in wrong data.                                              |
+| Starvation     | A thread is not able to obtain the resources it needs to execute.                                    |
+
+### Deadlock
+
+![Deadlock example from JMC Tim Buchalka's course](/img/deadlock-example.png)
+![Another deadlock example from JMC Tim Buchalka's course](/img/deadlock-example-2.png)
+
+Prevention measures
+
+- Organizing our locks into a hierarchy, and ensuring that all threads acquire locks in the same order
+  to avoid circular waiting, which is a common cause of deadlocks. This approach helps establish a
+  global lock order that all threads must follow
+- Instead of using traditional synchronized blocks or methods, we can use the `tryLock` method on the
+  `Lock` interface. This method allows us to attempt to acquire a lock. If it fails, we can handle
+  the situation without causing a deadlock
+
+### Livelock
+
+![Livelock example from JMC Tim Buchalka's course](/img/livelock-example.png)
+
+Prevention measures
+
+- Avoiding having threads that are constantly checking each other's states
+- Using timeouts to prevent threads from waiting indefinitely for each other
+- Using randomization to break the symmetry between threads.
+
+### Race condition
+
+Prevention measures
+
+- Synchronization
+- Atomics
+- Thread-safe collections
+- Immutable objects
+
+### Starvation
+
+Prevention measures
+
+- Fair Locks. A fair lock guarantees that all threads waiting to acquire the lock will be given an
+  equal chance of acquiring it. When a thread requests access to a fair lock, it gets added to a
+  FIFO queue. The lock is then granted to the thread at the head of the queue, or the first in.
+  Monitor lock is unfair. `ReentrantLock` can be fair or unfair.
+
+Benefits of fair locks
+
+- Fair locks can help to prevent thread starvation
+- They may improve the overall performance of a system, by ensuring that all threads get a chance of
+  accessing resources
+- They can make a system more predictable and easier to debug
+
+Drawbacks of fair locks
+
+- Fair locks might have a negative impact on performance, especially in systems where threads are
+  frequently competing for locks
+- Fair locks can be more difficult to implement
 
 ## Links
 
