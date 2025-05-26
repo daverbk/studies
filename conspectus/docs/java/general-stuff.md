@@ -331,10 +331,145 @@ a class, it is immediately loaded into the heap area, which remains singular whi
 Java, each thread gets its own PC register
 * Native methods stack. Native methods are methods written in C or C++. The JVM stores stacks that support such
 methods, with a separate native method stack dedicated to each thread.
+* [JNI (Java Native Interface)](https://docs.oracle.com/en/java/javase/17/docs/specs/jni/intro.html#java-native-interface-overview)
+  is a framework that allows Java code to call or be called by native applications and libraries
+  written in languages like C and C++. How JNI works:
+   1. Java code declares a native method
+  2. C/C++ implements that method using JNI headers
+  3. Java loads the native shared library (`.so`, `.dll`, `.dylib`) using `System.loadLibrary` 
+  4. Native code runs and can even call Java methods via JNI
 
-### Garbage Collection
+### [Garbage Collection](https://docs.oracle.com/en/java/javase/17/gctuning/introduction-garbage-collection-tuning.html#GUID-326EB4CF-8C8C-4267-8355-21AB04F0D304)
 
-[Garbage Collection in Java](https://www.javatpoint.com/how-garbage-collection-works-in-java)
+#### Generational Garbage Collection
+
+An object is considered garbage and its memory can be reused by the VM when it can no longer be
+reached from any reference of any other live object in the running program. Efficient collection is
+made possible by focusing on the fact that a majority of objects "die young."
+
+![Typical Distribution for Lifetimes of Objects](/img/objects-lifetime-distribution.png)
+
+#### Generations
+
+To optimize for this scenario, memory is managed in generations (memory pools holding objects of
+different ages). Garbage collection occurs in each generation when the generation fills up.
+
+The vast majority of objects are allocated in a pool dedicated to young objects (the young
+generation), and most objects die there. When the young generation fills up, it causes a minor
+collection in which only the young generation is collected; garbage in other generations isn't
+reclaimed. The costs of such collections are, to the first order, proportional to the number of live
+objects being collected; a young generation full of dead objects is collected very quickly.
+Typically, some fraction of the surviving objects from the young generation are moved to the old
+generation during each minor collection. Eventually, the old generation fills up and must be
+collected, resulting in a major collection, in which the entire heap is collected. Major collections
+usually last much longer than minor collections because a significantly larger number of objects are
+involved.
+
+![Default arrangement of generations in the serial collector](/img/arrangement-of-generations.png)
+
+The young generation consists of eden and two survivor spaces. Most objects are initially allocated
+in eden. One survivor space is empty at any time, and serves as the destination of live objects in
+eden and the other survivor space during garbage collection; after garbage collection, eden and the
+source survivor space are empty. In the next garbage collection, the purpose of the two survivor
+spaces are exchanged. The one space recently filled is a source of live objects that are copied into
+the other survivor space. Objects are copied between survivor spaces in this way until they've been
+copied a certain number of times or there isn't enough space left there. These objects are copied
+into the old region. This process is also called aging.
+
+There is no one right way to choose the size of a generation. The best choice is determined by the
+way the application uses memory as well as user requirements. Thus the virtual machine's choice of a
+garbage collector isn't always optimal and may be overridden with command-line options.
+
+#### Collectors
+
+##### Serial Collector
+
+The serial collector uses a single thread to perform all garbage collection work, which makes it
+relatively efficient because there is no communication overhead between threads.
+
+It's best-suited to single processor machines because it can't take advantage of multiprocessor
+hardware, although it can be useful on multiprocessors for applications with small data sets (up to
+approximately 100 MB). The serial collector is selected by default on certain hardware and operating
+system configurations, or can be explicitly enabled with the option `-XX:+UseSerialGC`.
+
+##### Parallel Collector
+
+The parallel collector is also known as throughput collector, it's a generational collector similar
+to the serial collector. The primary difference between the serial and parallel collectors is that
+the parallel collector has multiple threads that are used to speed up garbage collection.
+
+The parallel collector is intended for applications with medium-sized to large-sized data sets that
+are run on multiprocessor or multithreaded hardware. You can enable it by using the `-XX:
++UseParallelGC` option.
+
+Parallel compaction is a feature that enables the parallel collector to perform major collections in
+parallel. Without parallel compaction, major collections are performed using a single thread, which
+can significantly limit scalability. Parallel compaction is enabled by default if the option `-XX:
++UseParallelGC` has been specified. You can disable it by using the `-XX:-UseParallelOldGC` option.
+
+##### Garbage-First (G1) Collector
+
+G1 is a mostly concurrent collector. Mostly concurrent collectors perform some expensive work
+concurrently to the application. This collector is designed to scale from small machines to large
+multiprocessor machines with a large amount of memory. It provides the capability to meet a
+pause-time goal with high probability, while achieving high throughput.
+
+G1 is selected by default on most hardware and operating system configurations, or can be explicitly
+enabled using `-XX:+UseG1GC`.
+
+##### The Z Garbage Collector
+
+The Z Garbage Collector (ZGC) is a scalable low latency garbage collector. ZGC performs all
+expensive work concurrently, without stopping the execution of application threads.
+
+ZGC provides max pause times of a few milliseconds, but at the cost of some throughput. It is
+intended for applications, which require low latency. Pause times are independent of heap size that
+is being used. ZGC supports heap sizes from 8MB to 16TB. To enable this, use the `-XX:+UseZGC` option.
+
+##### Selecting a collector
+
+Unless your application has rather strict pause-time requirements, first run your application and
+allow the VM to select a collector.
+
+If necessary, adjust the heap size to improve performance. If the performance still doesn't meet
+your goals, then use the following guidelines as a starting point for selecting a collector:
+
+- If the application has a small data set (up to approximately 100 MB), then select the serial
+  collector with the option `-XX:+UseSerialGC`.
+- If the application will be run on a single processor and there are no pause-time requirements,
+  then select the serial collector with the option `-XX:+UseSerialGC`.
+- If (a) peak application performance is the first priority and (b) there are no pause-time
+  requirements or pauses of one second or longer are acceptable, then let the VM select the
+  collector or select the parallel collector with `-XX:+UseParallelGC`. 
+- If response time is more important than overall throughput and garbage collection pauses must be
+  kept shorter, then select the mostly concurrent collector with `-XX:+UseG1GC`. 
+- If response time is a high priority, then select a fully concurrent collector with `-XX:UseZGC`.
+
+These guidelines provide only a starting point for selecting a collector because performance is
+dependent on the size of the heap, the amount of live data maintained by the application, and the
+number and speed of available processors.
+
+If the recommended collector doesn't achieve the desired performance, then first attempt to adjust
+the heap and generation sizes to meet the desired goals. If performance is still inadequate, then
+try a different collector: Use the concurrent collector to reduce pause-time, and use the parallel
+collector to increase overall throughput on multiprocessor hardware.
+
+### Java Stack Machine
+
+A stack machine is a type of CPU or virtual machine architecture where operations are performed
+using a stack (Last-In-First-Out structure), rather than using registers (like in x86 or ARM).
+
+Instead of doing: `R1 = R2 + R3`
+
+You push values onto a stack and then call add, like
+
+```
+push R2
+push R3
+add
+```
+
+The `add` in this case pops the operands and then pushes the result.
 
 ### Execution Mechanism
 
