@@ -504,6 +504,8 @@ There are multiple tools that can be used to get the information about the JVM.
 
 - `jconsole`
 - `visualvm`
+- `jcmd`
+- `async-profiler`
 - intellij profiler
 
 #### Dumps
@@ -523,6 +525,23 @@ head dump it's possible to
 - follow object references
 - detect memory leaks (large object graphs not GC’d)
 - check suspicious collections presence (e.g., a List with 1M entries)
+
+##### Thread Dump
+
+Thread dumps might help us find 
+
+- blocked threads (deadlocks)
+- runnable threads doing CPU-intensive work
+- waiting threads stuck on locks or conditions
+
+Example of a deadlock in a thread dump
+
+```
+"Thread-1" BLOCKED on object monitor ...
+  - waiting to lock <0x1234> held by "Thread-2"
+"Thread-2" BLOCKED ...
+  - waiting to lock <0x5678> held by "Thread-1"
+```
 
 #### Flame Graph
 
