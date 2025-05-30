@@ -497,3 +497,51 @@ this is done by the garbage collector, which optimizes memory usage
 It is important to note that garbage collection is performed automatically in the JVM after certain periods of time and
 does not require special attention from specialists. Of course, you can try to force this process by calling
 `System.gc()`, but there is no guarantee that this will work
+
+### JVM analytics 
+
+There are multiple tools that can be used to get the information about the JVM.
+
+- `jconsole`
+- `visualvm`
+- intellij profiler
+
+#### Dumps
+
+| Type	        | What It Is                                                                |
+|--------------|---------------------------------------------------------------------------|
+| Heap Dump	   | 	Snapshot of the JVM heap memory — shows all objects, classes, references |
+| Thread Dump	 | 	Snapshot of all JVM threads and their states — stack traces, locks, etc. |
+
+##### Heap Dump
+
+We better look for high-retaining classes or unexpected singletons holding onto references. With a
+head dump it's possible to
+
+- see class-wise object counts & sizes
+- sort by shallow/deep size
+- follow object references
+- detect memory leaks (large object graphs not GC’d)
+- check suspicious collections presence (e.g., a List with 1M entries)
+
+#### Flame Graph
+
+A flame graph is a visualization of stack traces sampled over time, it shows
+
+- which methods are consuming the most time
+- call paths that led to those methods
+- a hierarchical view of what our app is doing
+
+Each box is a method
+
+- width = how much time was spent there (or how often it was sampled)
+- stacked vertically = call depth
+- the tallest flames = deepest call stacks
+- the widest flames = performance hot spots
+
+Thing to look out for
+
+1. flat wide boxes → many calls to shallow methods 
+2. deep tall stacks → deep recursion or call chains
+3. repeated patterns → loops or frequently called services
+4. native calls → expensive JNI or I/O
