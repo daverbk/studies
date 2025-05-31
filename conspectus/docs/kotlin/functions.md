@@ -1,5 +1,5 @@
 ---
-slug: /kotlin/oop
+slug: /kotlin/functions
 title: Functions 🎭 
 description: Lambdas, inline functions and extensions
 sidebar_position: 2
