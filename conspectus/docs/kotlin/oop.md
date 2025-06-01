@@ -39,6 +39,19 @@ works only for primitive types.
 
 In kotlin `enum` is a modifier for classes to create enumerations
 
+### `value` class
+
+Inline classes are used to "wrap" a primitive value like `String`.
+
+```kotlin
+@JvmInline
+value class Password(private val s: String)
+
+// No actual instantiation of class 'Password' happens
+// At runtime 'securePassword' contains just 'String'
+val securePassword = Password("Don't try this in production")
+```
+
 ### `data` class
 
 Generates `equals`, `hashCode`, `copy`, `toString`
