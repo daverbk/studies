@@ -124,7 +124,13 @@ to the code of that client. Avoid creating files just to hold all extensions of 
 ## Inline functions
 
 Inlining a function means that compiler will substitute a body of the function instead of calling it. No anonymous class
-will be created for it.
+will be created for it. Inlining has some drawbacks though, it might negatively affect applications' size. Only small functions
+must be inlined. By default, it's not recommended to define functions as `inline` as HotSpot will still identify frequently used
+places and inline them. Inlining is not aiming to reduce the stack calls, but rather to reduce anonymous classes allocation.
+
+### `run`
+
+Runs the block of code (lambda) and returns the last expression as the result.
 
 ```kotlin
 inline fun <R> run(block: () -> R): R = block()
@@ -138,6 +144,50 @@ Will be compiled to the bytecode
 ```kotlin
 val name = "Kotlin"
 println("Hi, $name!") // inlined code of lambda body
+```
+
+### `let`
+
+Allows to check the argument for being non-null, not only the receiver
+
+```kotlin
+fun getEmail(): Email?
+
+val email = getEmail()
+if (email != null) sendEmailTo(email)
+
+// can be done simpler with let
+email?.let { e -> sendEmailTo(e) }
+
+// or
+getEmail()?.let { sendEmailTo(it) }
+```
+
+### `takeIf`
+
+Returns the receiver object if it satisfies the given predicate, otherwise returns `null`
+
+```kotlin
+issue.takeIf { it.status == FIXED }
+person.patronymicName.takeIf(String::isNotEmpty)
+```
+
+### `takeUnless`
+
+Returns the receiver object if it does not satisfy the given predicate, otherwise return `null`
+
+```kotlin
+person.patronymicName.takeUnless(String?::isNullOrEmpty)
+```
+
+### `repeat`
+
+Repeats an action for a given number of times
+
+```kotlin
+repeat(10) {
+    println("Welcome!")
+}
 ```
 
 ### Resource management with `use`
