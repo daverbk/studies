@@ -9,6 +9,9 @@ sidebar_custom_props:
 
 # Collections and Sequences
 
+As a rule of thumb - we better use sequences when there are multiple chained calls to avoid creating multiple collections.
+At the same time it might be possible to use collections when the logic allows to put multiple operation in one call like `mapNotNull()`.
+
 ```mermaid
 classDiagram
 

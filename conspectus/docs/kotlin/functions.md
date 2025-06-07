@@ -42,7 +42,7 @@ example of storing a lambda in a variable of type `(Int, Int) -> Int`
 val sum: (Int, Int) -> Int = { x, y -> x + y }
 ```
 
-Bound reference store the object on which the member can delay to called, while unbound can be called on any object of a
+Bound reference stores the object on which the member can delay to called, while unbound can be called on any object of a
 given type
 
 `Bound`
@@ -120,6 +120,52 @@ Reference of the [coding convention](https://kotlinlang.org/docs/coding-conventi
 ... when defining extension functions for a class which are relevant for all clients of this class, put them in the same
 file with the class itself. When defining extension functions that make sense only for a specific client, put them next
 to the code of that client. Avoid creating files just to hold all extensions of some class.
+
+## Lambda with receiver
+
+It's easier to understand lambda with receiver concept via comparison to extension function
+
+| regular function   | regular lambda       |
+|--------------------|----------------------|
+| extension function | lambda with receiver |
+
+Example would be the `with()` function
+
+```kotlin
+var sb = StringBuilder()
+with(sb) {
+    appendLine("Alphabet: ")
+    for (c in 'a'..'z') {
+        append(c)
+    }
+}
+
+// Storing a lambda with receiver in a variable
+val isOdd: Int.() -> Boolean = { this % 2 == 1 }
+
+// It can later be called as
+1.isOdd()
+```
+
+### Useful library function that take a lambda with receiver as an argument
+
+```kotlin
+inline fun <T, R> with(receiver: T, block: T.() -> R): R = receiver.block()
+
+inline fun <T, R> T.run(block: T.() -> R): R = block()
+
+inline fun <T, R> T.let(block: (T) -> R): R = block(this)
+
+inline fun <T> T.apply(block: T.() -> Unit): T { block(); return this }
+
+inline fun <T> T.also(block: (T) -> Unit): T { block(this); return this }
+```
+
+|                         | `this`         | `it`   |
+|-------------------------|----------------|--------|
+| return result of lambda | `with` / `run` | `let`  |
+| return receiver         | `apply`        | `also` |
+
 
 ## Inline functions
 
