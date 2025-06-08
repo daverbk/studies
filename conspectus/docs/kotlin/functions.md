@@ -106,7 +106,7 @@ for (element in list) {
 }
 ```
 
-## Extensions
+## [Extensions](https://kotlinlang.org/docs/extensions.html)
 
 Kotlin's extensions are basically static functions defined in a separate auxiliary class. We can't call private members
 from extensions. As extension functions are static under the hood they cannot be overridden. Properties can be extended.
@@ -120,6 +120,36 @@ Reference of the [coding convention](https://kotlinlang.org/docs/coding-conventi
 ... when defining extension functions for a class which are relevant for all clients of this class, put them in the same
 file with the class itself. When defining extension functions that make sense only for a specific client, put them next
 to the code of that client. Avoid creating files just to hold all extensions of some class.
+
+## [Scoped extensions](https://kotlinlang.org/docs/extensions.html#scope-of-extensions)
+
+A scoped extension in Kotlin is simply an extension function defined within a limited scope
+
+- inside a function
+- inside a class
+
+It only exists in that scope, not globally. This lets us write context-specific logic without
+polluting the global namespace. It's really useful when building DSLs. The best example would be
+`kotlinx.html`.
+
+```kotlin
+html {
+    body {
+        p {
+            +"Hello, world!"
+        }
+    }
+}
+```
+
+the `body` function on `HTML` looks like 
+
+```kotlin
+inline fun HTML.body(classes : String? = null, crossinline block : BODY.() -> Unit = {}) : Unit {
+    contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+    BODY(attributesMapOf("class", classes), consumer).visit(block)
+}
+```
 
 ## Lambda with receiver
 
