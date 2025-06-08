@@ -240,3 +240,15 @@ fun List<Int>.average(): Duble { }
 @JvmName("averageOfDouble")
 fun List<Double>.average(): Double { }
 ```
+
+# [Variance](https://kotlinlang.org/docs/generics.html)
+
+Type variance answers the question: "If `A` is a subtype of `B`, is `Generic<A>` a subtype of
+`Generic<B>`?"
+
+| Modifier  | Name          | Meaning                                                               | Is `Generic<A>` a subtype of `Generic<B>`? |
+|-----------|---------------|-----------------------------------------------------------------------|:------------------------------------------:|
+| `out`     | Covariant     | Read-only: we can get values of type `A` but not put them in          |                     ✅                      |
+| `in`      | Contravariant | Write-only: we can put values of type `A` but not read them out fully |                ✅ (inverse)                 |
+| _nothing_ | Invariant     | We can both read and write, but type must match exactly               |                     ❌                      |
+
