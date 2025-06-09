@@ -2,7 +2,6 @@
 slug: /
 title: Introduction 👋
 sidebar_position: 1
-pagination_next: null
 ---
 
 # Introduction
