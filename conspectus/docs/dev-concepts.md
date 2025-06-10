@@ -129,3 +129,13 @@ unambiguous representation within a system. It encourages code reuse and helps i
 
 You Ain't Gonna Need It: YAGNI advises against adding functionality until it's actually needed. It discourages
 developers from implementing features based on speculative future requirements
+
+## OLTP vs OLAP
+
+| Feature         | 	OLTP (Online Transaction Processing)              | OLAP (Online Analytical Processing)             |
+|-----------------|----------------------------------------------------|-------------------------------------------------|
+| Purpose         | Handle real-time transactions	                     | Analyze large volumes of historical data        |
+| Focus           | Fast reads/writes for day-to-day operations	       | Complex queries for business insights           |
+| Speed	          | Optimized for transactional speed and consistency	 | Optimized for query performance and flexibility |
+| Data freshness	 | Real-time	                                         | Near-real-time or batch updated                 |
+
