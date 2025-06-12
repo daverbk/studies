@@ -139,3 +139,27 @@ developers from implementing features based on speculative future requirements
 | Speed	          | Optimized for transactional speed and consistency	 | Optimized for query performance and flexibility |
 | Data freshness	 | Real-time	                                         | Near-real-time or batch updated                 |
 
+## [Gradle Lifecycle](https://docs.gradle.org/current/userguide/build_lifecycle.html)
+
+Gradle goes through three main phases during build
+
+> Initialization ➝ Configuration ➝ Execution
+
+1. Initialization
+
+- Gradle determines which projects are involved 
+- Gradle reads `settings.gradle.kts`
+
+2. Configuration Phase
+
+- Gradle evaluates all `build.gradle(.kts)` scripts
+- All tasks are created and configured
+- The entire task graph is built, even if you only run one task
+- This phase sets up inputs/outputs, dependencies, and logic
+
+3. Execution
+
+- Only the tasks explicitly requested, and their dependencies, are executed
+- Each task's `doFirst`, `doLast`, or actions are called here
+- Gradle checks if a task is up-to-date via inputs/outputs - if so, it can be skipped (incremental
+  build)
