@@ -43,9 +43,7 @@ Highlighting significant information and excluding insignificant information fro
 abstraction, implying a set of the most significant characteristics of an object that are available to the rest of the
 program
 
-## SOLID
-
-[The S.O.L.I.D Principles in Pictures](https://medium.com/backticks-tildes/the-s-o-l-i-d-principles-in-pictures-b34ce2f1e898)
+## [SOLID](https://drive.google.com/file/d/0BwhCYaYDn8EgODUxZTJhOWEtMTZlMi00OWRiLTg0ZmEtZWQ5ODRlY2RmNDlk/view?resourcekey=0-yJZQZu3pFfMafpcZ_O8y0Q)
 
 ### S — Single Responsibility
 
@@ -66,7 +64,7 @@ more functions, the ideal approach is to add to the functions that already exist
 `If S is a subtype of T, then objects of type T in a program may be replaced with objects of type S without altering
 any of the desirable properties of that program`
 
-The child Class should be able to process the same requests and deliver the same result as the parent Class or it could
+The child Class should be able to process the same requests and deliver the same result as the parent Class, or it could
 deliver a result that is of the same type
 
 ### I — Interface Segregation
@@ -94,20 +92,20 @@ the specification of the interface
 
 ### A — Atomicity
 
-All operations in a transaction succeed or every operation is rolled back
+All operations in a transaction succeed or every operation is rolled back.
 
 ### C — Consistency
 
-On the completion of a transaction, the database is structurally sound
+On the completion of a transaction, the database is structurally sound.
 
 ### I — Isolation
 
 Transactions do not contend with one another. Contentious access to data is moderated by the database so that
-transactions appear to run sequentially
+transactions appear to run sequentially.
 
 ### D — Durability
 
-The results of applying a transaction are permanent, even in the presence of failures
+The results of applying a transaction are permanent, even in the presence of failures.
 
 ## KISS
 
@@ -163,3 +161,69 @@ Gradle goes through three main phases during build
 - Each task's `doFirst`, `doLast`, or actions are called here
 - Gradle checks if a task is up-to-date via inputs/outputs - if so, it can be skipped (incremental
   build)
+
+## [Normal Forms in DBMS](https://www.geeksforgeeks.org/dbms/normal-forms-in-dbms/)
+
+**_Normalization_** is a systematic approach to organize data within a database to reduce redundancy and
+eliminate undesirable characteristics such as insertion, update, and deletion anomalies. **_Normal
+Forms_** are different stages of normalization, and each stage imposes certain rules to improve the
+structure and performance of a database.
+
+### Why?
+
+- Reduces Data Redundancy: duplicate data is stored efficiently, saving disk space and reducing
+  inconsistency
+- Improves Data Integrity: ensures the accuracy and consistency of data by organizing it in a
+  structured manner
+- Simplifies Database Design: by following a clear structure, database designs become easier to
+  maintain and update
+- Optimizes Performance: Reduces the chance of anomalies and increases the efficiency of database
+  operations
+
+### Stages
+
+Each stage must satisfy the previous stage's requirements.
+
+1. First Normal Form (`1NF`): Eliminating Duplicate Records
+
+- All columns contain atomic values (i.e., indivisible values)
+- Each row is unique (i.e., no duplicate rows)
+- Each column has a unique name
+- The order in which data is stored does not matter
+
+2. Second Normal Form (`2NF`): Eliminating Partial Dependency
+
+Every non-prime attribute (non-key attribute) must depend on the entire primary key, not just a part
+of it.
+
+3. Third Normal Form (`3NF`): Eliminating Transitive Dependency
+
+Non-prime attributes should not depend on other non-prime attributes.
+
+4. Boyce-Codd Normal Form (`BCNF`): A stronger form of 3NF
+
+A stricter version of `3NF` where for every non-trivial functional dependency (`X` → `Y`), `X` must be
+a superkey (a unique identifier for a record in the table).
+
+5. Fourth Normal Form (`4NF`): Removing Multi-Valued Dependencies
+
+A table is in `4NF` if it is in `BCNF` and has no multivalued dependencies. A multivalued dependency
+occurs when one attribute determines another, and both attributes are independent of all other
+attributes in the table.
+
+6. Fifth Normal Form (`5NF`): Eliminating Join Dependency
+
+When a table is in `4NF` and all join dependencies are removed. This form ensures that every table is
+fully decomposed into smaller tables that are logically connected without losing information.
+
+### Over-Normalization
+
+Excessive normalization can lead to
+
+- Complex Queries: Too many tables may result in multiple joins, making queries slow and difficult
+  to manage
+- Performance Overhead: Additional processing required for joins in overly normalized databases may
+  hurt performance, especially in large-scale systems
+
+In many cases, **_denormalization_** (combining tables to reduce the need for complex joins) is used
+for performance optimization in specific applications, such as reporting systems.
