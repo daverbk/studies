@@ -227,3 +227,56 @@ Excessive normalization can lead to
 
 In many cases, **_denormalization_** (combining tables to reduce the need for complex joins) is used
 for performance optimization in specific applications, such as reporting systems.
+
+## [Metric types](https://prometheus.io/docs/concepts/metric_types/)
+
+### Counter
+
+A **counter** is a cumulative metric that represents a single **monotonically increasing** counter
+whose value can only increase or be reset to zero on restart. For example, you can use a counter to
+represent the number of requests served, tasks completed, or errors.
+
+### Gauge
+
+A **gauge** is a metric that represents a single numerical value that can arbitrarily go up and down.
+Gauges are typically used for measured values like temperatures or current memory usage, but also 
+"counts" that can go up and down, like the number of concurrent requests.
+
+### Histogram
+
+A histogram samples observations (usually things like request durations or response sizes) and
+counts them in configurable buckets. It also provides a sum of all observed values. A histogram with
+a base metric name of `<basename>` exposes multiple time series during a scrape
+
+- cumulative counters for the observation buckets, exposed as
+  `<basename>_bucket{le="<upper inclusive bound>"}`
+- the total sum of all observed values, exposed as `<basename>_sum`
+- the count of events that have been observed, exposed as `<basename>_count` (identical to
+  `<basename>_bucket{le="+Inf"}` above)
+ 
+### Summary
+
+Similar to a histogram, a summary samples observations (usually things like request durations and
+response sizes). While it also provides a total count of observations and a sum of all observed
+values, it calculates configurable quantiles over a sliding time window. A summary with a base
+metric name of `<basename>` exposes multiple time series during a scrape:
+
+- streaming φ-quantiles (0 ≤ φ ≤ 1) of observed events, exposed as `<basename>{quantile="<φ>"}`
+- the total sum of all observed values, exposed as `<basename>_sum`
+- the count of events that have been observed, exposed as `<basename>_count`
+
+### [Summary vs Histogram](https://prometheus.io/docs/practices/histograms/)
+
+If we use a **summary**, we control the error in the dimension of φ. If we use a **histogram**, we 
+control the error in the dimension of the observed value (via choosing the appropriate bucket
+layout). With a broad distribution, small changes in φ result in large deviations in the observed
+value. With a sharp distribution, a small interval of observed values covers a large interval of φ.
+
+Two rules of thumb
+
+1. If you need to aggregate, choose histograms
+2. Otherwise, choose a histogram if you have an idea of the range and distribution of values that
+   will be observed. Choose a summary if you need an accurate quantile, no matter what the range and
+   distribution of the values is
+
+
