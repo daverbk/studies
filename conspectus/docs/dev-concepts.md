@@ -228,7 +228,28 @@ Excessive normalization can lead to
 In many cases, **_denormalization_** (combining tables to reduce the need for complex joins) is used
 for performance optimization in specific applications, such as reporting systems.
 
-## [Metric types](https://prometheus.io/docs/concepts/metric_types/)
+## [Metric Structure](https://prometheus.io/docs/concepts/data_model/)
+
+Every metric is uniquely identified by its metric name and optional key-value pairs called labels.
+
+### Names
+
+- Metric names SHOULD specify the general feature of a system that is measured (e.g.
+  `http_requests_total` - the total number of HTTP requests received)
+- Metric names MAY use any UTF-8 characters
+- Metric names SHOULD match the regex `[a-zA-Z_:][a-zA-Z0-9_:]*` for the best experience. Metric
+  names outside of that set will require quoting e.g. when used in PromQL
+
+### Labels
+
+- Label names MAY use any UTF-8 characters
+- Label names beginning with `__` (two underscores) MUST be reserved for internal Prometheus use
+- Label names SHOULD match the regex `[a-zA-Z_][a-zA-Z0-9_]*` for the best experience. Label names
+  outside of that regex will require quoting e.g. when used in PromQL (see the UTF-8 guide)
+- Label values MAY contain any UTF-8 characters
+- Labels with an empty label value are considered equivalent to labels that do not exist
+
+## [Metric Types](https://prometheus.io/docs/concepts/metric_types/)
 
 ### Counter
 
