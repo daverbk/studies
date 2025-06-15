@@ -131,7 +131,7 @@ developers from implementing features based on speculative future requirements
 ## OLTP vs OLAP
 
 | Feature         | 	OLTP (Online Transaction Processing)              | OLAP (Online Analytical Processing)             |
-|-----------------|----------------------------------------------------|-------------------------------------------------|
+|:----------------|----------------------------------------------------|-------------------------------------------------|
 | Purpose         | Handle real-time transactions	                     | Analyze large volumes of historical data        |
 | Focus           | Fast reads/writes for day-to-day operations	       | Complex queries for business insights           |
 | Speed	          | Optimized for transactional speed and consistency	 | Optimized for query performance and flexibility |
@@ -300,10 +300,10 @@ Two rules of thumb
    will be observed. Choose a summary if you need an accurate quantile, no matter what the range and
    distribution of the values is
 
-## Database Partitioning & Sharding
+## Database [Partitioning](https://www.postgresql.org/docs/current/ddl-partitioning.html) & [Sharding](https://aws.amazon.com/what-is/database-sharding/)
 
 | Aspect          | Partitioning                                                                        | Sharding                                                      |
-|-----------------|-------------------------------------------------------------------------------------|---------------------------------------------------------------|
+|:----------------|-------------------------------------------------------------------------------------|---------------------------------------------------------------|
 | Definition      | Dividing a single database/table into parts (partitions) based on a key or strategy | Splitting data across multiple databases or servers (shards)  |
 | Scope           | Within a single database instance                                                   | 	Across multiple database instances                           |
 | Managed By	     | Usually the database engine itself	                                                 | Often requires application-level logic or external middleware |
