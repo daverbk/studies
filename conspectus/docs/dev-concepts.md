@@ -300,4 +300,15 @@ Two rules of thumb
    will be observed. Choose a summary if you need an accurate quantile, no matter what the range and
    distribution of the values is
 
+## Database Partitioning & Sharding
+
+| Aspect          | Partitioning                                                                        | Sharding                                                      |
+|-----------------|-------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| Definition      | Dividing a single database/table into parts (partitions) based on a key or strategy | Splitting data across multiple databases or servers (shards)  |
+| Scope           | Within a single database instance                                                   | 	Across multiple database instances                           |
+| Managed By	     | Usually the database engine itself	                                                 | Often requires application-level logic or external middleware |
+| Goal            | 	Improve query performance and data organization                                    | Enable horizontal scaling, handle very large datasets         |
+| Failure Domain	 | All partitions are on the same DB — one server fails, all partitions are down	      | Each shard is independent — one shard down ≠ total failure    |
+| Examples        | Table partitioning in PostgreSQL by date range	                                     | User data sharded by user ID hash across 5 database servers   |
+
 
