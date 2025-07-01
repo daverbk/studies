@@ -26,6 +26,7 @@
         <module>15-streams</module>
         <module>18-io</module>
         <module>19-concurrency</module>
+        <module>20-jdbc</module>
     </modules>
 
     <properties>
