@@ -86,15 +86,13 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 
-    private static DataSource setUpDataSource(String database) {
+    public static DataSource setUpDataSource(String database) {
         var dataSource = new PGSimpleDataSource();
         dataSource.setServerNames(new String[]{"localhost"});
         dataSource.setDatabaseName(database);
-        dataSource.setPortNumber(5432);
+        dataSource.setPortNumbers(new int[]{5432});
         dataSource.setUser(System.getenv("PG_USERNAME"));
         dataSource.setPassword(System.getenv("PG_PASSWORD"));
         return dataSource;
