@@ -62,10 +62,10 @@ public class Main {
                 }
             }
             connection.commit();
-            connection.setAutoCommit(true);
         } catch (SQLException e) {
             connection.rollback();
-            throw new RuntimeException(e);
+        } finally {
+            connection.setAutoCommit(true);
         }
 
         return orderId;
@@ -98,7 +98,6 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        String lastOrder = null;
         int orderId = -1;
 
         try (
@@ -111,35 +110,41 @@ public class Main {
                 Statement.RETURN_GENERATED_KEYS
             )
         ) {
-            for (String record : records) {
-                String[] columns = record.split(",");
+            for (int i = 0; i < records.size(); i++) {
+                String[] columns = records.get(i).split(",");
+                var recordType = columns[0];
+                boolean isLast = i == records.size() - 1;
 
-                if (columns[0].equals("order") && (lastOrder == null || !lastOrder.equals(
-                    columns[1]))) {
-                    lastOrder = columns[1];
+                if (recordType.equals("order")) {
                     orderId = insertOder(connection, psOrder, Date.valueOf(
                         LocalDate.parse(columns[1],
                             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
                 }
 
-                if (columns[0].equals("item")) {
-                    insertOrderDetails(
-                        psOrderDetails,
-                        columns[2],
-                        orderId,
-                        Integer.parseInt(columns[1])
-                    );
+                if (recordType.equals("item")) {
+                    if (orderId != -1) {
+                        insertOrderDetails(
+                            psOrderDetails,
+                            columns[2],
+                            orderId,
+                            Integer.parseInt(columns[1])
+                        );
+                    } else {
+                        System.err.println("Couldn't insert previous order");
+                    }
                 }
 
+                if (recordType.equals("order") || isLast) {
+                    int[] inserts = psOrderDetails.executeBatch();
+                    System.out.printf(
+                        "%d order details added for order %s%n",
+                        inserts.length,
+                        orderId
+                    );
+                }
             }
-
-            int[] inserts = psOrderDetails.executeBatch();
-            System.out.printf("%d order details added%n", inserts.length);
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
-
 }
