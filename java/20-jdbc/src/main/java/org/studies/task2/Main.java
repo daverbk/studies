@@ -3,17 +3,33 @@ package org.studies.task2;
 import static org.studies.lesson3.Main.setUpDataSource;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
+
+record OrderDetail(int orderDetailId, String itemDescription, int qty) {
+
+    public OrderDetail(String itemDescription, int qty) {
+        this(-1, itemDescription, qty);
+    }
+}
+
+record Order(int orderId, String dateString, List<OrderDetail> details) {
+
+    public Order(String dateString) {
+        this(-1, dateString, new ArrayList<>());
+    }
+
+    public void addDetail(String itemDescription, int qty) {
+        OrderDetail item = new OrderDetail(itemDescription, qty);
+        details.add(item);
+    }
+}
 
 public class Main {
 
@@ -42,109 +58,29 @@ public class Main {
         }
     }
 
-    private static int insertOder(
-        Connection connection,
-        PreparedStatement preparedStatement,
-        Date orderDate
-    ) throws SQLException {
-
-        var orderId = -1;
-
-        try {
-            connection.setAutoCommit(false);
-            preparedStatement.setDate(1, orderDate);
-            var inserted = preparedStatement.executeUpdate();
-            if (inserted > 0) {
-                var resultSet = preparedStatement.getGeneratedKeys();
-                if (resultSet.next()) {
-                    orderId = resultSet.getInt(1);
-                    System.out.printf("Order %d has been successfully inserted%n", orderId);
+    private static List<Order> readData() {
+        List<Order> vals = new ArrayList<>();
+        try (Scanner scanner = new Scanner(Path.of(
+            Objects.requireNonNull(
+                org.studies.lesson2.Main.class.getClassLoader().getResource("Orders.csv")
+            ).getPath()
+        ))) {
+            scanner.useDelimiter("[,\\n]");
+            var list = scanner.tokens().map(String::trim).toList();
+            for (int i = 0; i < list.size(); i++) {
+                String value = list.get(i);
+                if (value.equals("order")) {
+                    var date = list.get(++i);
+                    vals.add(new Order(date));
+                } else if (value.equals("item")) {
+                    var qty = Integer.parseInt(list.get(++i));
+                    var description = list.get(++i);
                 }
             }
-            connection.commit();
-        } catch (SQLException e) {
-            connection.rollback();
-        } finally {
-            connection.setAutoCommit(true);
-        }
-
-        return orderId;
-    }
-
-    private static void insertOrderDetails(
-        PreparedStatement preparedStatement,
-        String description,
-        int orderId,
-        int quantity
-    ) throws SQLException {
-
-        preparedStatement.setInt(1, orderId);
-        preparedStatement.setString(2, description);
-        preparedStatement.setInt(3, quantity);
-        preparedStatement.addBatch();
-    }
-
-    private static void addDataFromFile(Connection connection) throws SQLException {
-        List<String> records;
-        try {
-            records = Files.readAllLines(
-                Path.of(
-                    Objects.requireNonNull(
-                        org.studies.lesson2.Main.class.getClassLoader().getResource("Orders.csv")
-                    ).getPath()
-                )
-            );
+            vals.forEach(System.out::println);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        int orderId = -1;
-
-        try (
-            PreparedStatement psOrder = connection.prepareStatement(
-                INSERT_ORDER,
-                Statement.RETURN_GENERATED_KEYS
-            );
-            PreparedStatement psOrderDetails = connection.prepareStatement(
-                INSERT_ORDER_DETAILS,
-                Statement.RETURN_GENERATED_KEYS
-            )
-        ) {
-            for (int i = 0; i < records.size(); i++) {
-                String[] columns = records.get(i).split(",");
-                var recordType = columns[0];
-                boolean isLast = i == records.size() - 1;
-
-                if (recordType.equals("order")) {
-                    orderId = insertOder(connection, psOrder, Date.valueOf(
-                        LocalDate.parse(columns[1],
-                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-                }
-
-                if (recordType.equals("item")) {
-                    if (orderId != -1) {
-                        insertOrderDetails(
-                            psOrderDetails,
-                            columns[2],
-                            orderId,
-                            Integer.parseInt(columns[1])
-                        );
-                    } else {
-                        System.err.println("Couldn't insert previous order");
-                    }
-                }
-
-                if (recordType.equals("order") || isLast) {
-                    int[] inserts = psOrderDetails.executeBatch();
-                    System.out.printf(
-                        "%d order details added for order %s%n",
-                        inserts.length,
-                        orderId
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return vals;
     }
 }
