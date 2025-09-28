@@ -86,6 +86,8 @@ to the interface that will allow the tool to connect to the Class
 It also says that both the Class and the interface should not know how the tool works. However, the tool needs to meet
 the specification of the interface
 
+[A talk by Robert C. Martin on SOLID and Agile Design](https://youtu.be/TMuno5RZNeE?si=9Ooszur_Tw6Mqz7I)
+
 ## ACID
 
 [ACID Database Properties](https://intuting.medium.com/acid-database-properties-6bc2b049ed2d)
