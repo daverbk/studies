@@ -14,25 +14,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-record OrderDetail(int orderDetailId, String itemDescription, int qty) {
-
-    public OrderDetail(String itemDescription, int qty) {
-        this(-1, itemDescription, qty);
-    }
-}
-
-record Order(int orderId, String dateString, List<OrderDetail> details) {
-
-    public Order(String dateString) {
-        this(-1, dateString, new ArrayList<>());
-    }
-
-    public void addDetail(String itemDescription, int qty) {
-        OrderDetail item = new OrderDetail(itemDescription, qty);
-        details.add(item);
-    }
-}
-
 public class Main {
 
     private static final String INSERT_ORDER = "INSERT INTO storefront.order (order_date) VALUES (?::timestamp)";
@@ -60,7 +41,7 @@ public class Main {
         }
     }
 
-    private static List<Order> readData() {
+    public static List<Order> readData() {
         List<Order> vals = new ArrayList<>();
         try (Scanner scanner = new Scanner(Path.of(
             Objects.requireNonNull(
