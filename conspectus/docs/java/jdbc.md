@@ -72,7 +72,7 @@ Database tables can be associated with one another, through different kinds of r
 
 ### Normalization & Join
 
-On normalization and normal forms check out [this](../dev-concepts.mdx#normal-forms-in-dbms). A join
+On normalization and normal forms check out [this](../dev-concepts.md#normal-forms-in-dbms). A join
 is a SQL clause, that combines rows from two or more tables, based on a common field.
 
 | Join Type    | Result                                                                                               |
