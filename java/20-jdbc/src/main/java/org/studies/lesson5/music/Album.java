@@ -5,7 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Entity
 @Table(name = "albums", schema = "music")
@@ -19,6 +24,10 @@ public class Album implements Comparable<Album> {
     @Column(name = "album_name")
     private String albumName;
 
+    @OneToMany
+    @JoinColumn(name="album_id")
+    private List<Song> songs = new ArrayList<>();
+
     public Album() {
     }
 
@@ -31,6 +40,12 @@ public class Album implements Comparable<Album> {
         this.albumName = albumName;
     }
 
+    public Album(int albumId, String albumName, List<Song> songs) {
+        this.albumId = albumId;
+        this.albumName = albumName;
+        this.songs = songs;
+    }
+
     public String getAlbumName() {
         return albumName;
     }
@@ -41,9 +56,17 @@ public class Album implements Comparable<Album> {
 
     @Override
     public String toString() {
+
+        songs.sort(Comparator.comparing(Song::getTrackNumber));
+        StringBuilder sb = new StringBuilder();
+        for (Song song : songs) {
+            sb.append("\n\t").append(song);
+        }
+        sb.append("\n");
         return "Album{" +
             "albumId=" + albumId +
             ", albumName='" + albumName + '\'' +
+            ", songs=" + sb +
             '}';
     }
 

@@ -1,6 +1,5 @@
 package org.studies.lesson5.music;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -24,15 +23,16 @@ public class MainQuery {
 
             var transaction = em.getTransaction();
             transaction.begin();
-            artists = getArtistsJPQL(em, "%Greatest Hits%");
-            artists.forEach(System.out::println);
+//            artists = getArtistsJPQL(em, "%Greatest Hits%");
+//            artists.forEach(System.out::println);
 
             System.out.println("-".repeat(30));
-            Stream<Artist> sartists = getArtistsSQL(em, "Bl%");
-            var map = sartists.limit(10)
-                .collect(Collectors.toMap(Artist::getArtistName, (a) -> a.getAlbums().size(),
-                    Integer::sum, TreeMap::new));
-            map.forEach((k, v) -> System.out.println(k + " : " + v));
+            Artist sartists = getArtistsSQL(em, 201);
+            System.out.println(sartists);
+//            var map = sartists.limit(10)
+//                .collect(Collectors.toMap(Artist::getArtistName, (a) -> a.getAlbums().size(),
+//                    Integer::sum, TreeMap::new));
+//            map.forEach((k, v) -> System.out.println(k + " : " + v));
 
 //            var names = getArtistNames(em, "%Stev%");
 //            names.map(a -> new Artist(
@@ -75,12 +75,12 @@ public class MainQuery {
         return em.createQuery(criteriaQuery).getResultStream();
     }
 
-    private static Stream<Artist> getArtistsSQL(EntityManager em, String matchedValue) {
+    private static Artist getArtistsSQL(EntityManager em, int id) {
 
         var query = em.createNativeQuery(
-            "SELECT * FROM music.artists WHERE artist_name like ?1", Artist.class
+            "SELECT * FROM music.artists WHERE artist_id = ?1", Artist.class
         );
-        query.setParameter(1, matchedValue);
-        return query.getResultStream();
+        query.setParameter(1, id);
+        return (Artist) query.getSingleResult();
     }
 }

@@ -26,7 +26,7 @@ public class Artist {
     private String artistName;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="artist_id")
+    @JoinColumn(name = "artist_id")
     private List<Album> albums = new ArrayList<>();
 
     public Artist() {
@@ -39,6 +39,12 @@ public class Artist {
     public Artist(int artistId, String artistName) {
         this.artistId = artistId;
         this.artistName = artistName;
+    }
+
+    public Artist(int artistId, String artistName, List<Album> albums) {
+        this.artistId = artistId;
+        this.artistName = artistName;
+        this.albums = albums;
     }
 
     public List<Album> getAlbums() {
