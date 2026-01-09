@@ -7,6 +7,8 @@ pagination_next: null
 
 # Things to know about development
 
+## [Programming paradigms overview](https://bytebytego.com/guides/top-8-programming-paradigms/)
+
 ## OOP
 
 Programming paradigm based on the concept of objects, which can contain data and code: data in the form of
@@ -130,14 +132,18 @@ unambiguous representation within a system. It encourages code reuse and helps i
 You Ain't Gonna Need It: YAGNI advises against adding functionality until it's actually needed. It discourages
 developers from implementing features based on speculative future requirements
 
+## [BDUF](https://en.wikipedia.org/wiki/Big_design_up_front)
+
+A software development approach where all system design, requirements, and architecture are fully detailed before any implementation begins
+
 ## OLTP vs OLAP
 
-| Feature         | 	OLTP (Online Transaction Processing)              | OLAP (Online Analytical Processing)             |
+| Feature         |  OLTP (Online Transaction Processing)              | OLAP (Online Analytical Processing)             |
 |:----------------|----------------------------------------------------|-------------------------------------------------|
-| Purpose         | Handle real-time transactions	                     | Analyze large volumes of historical data        |
-| Focus           | Fast reads/writes for day-to-day operations	       | Complex queries for business insights           |
-| Speed	          | Optimized for transactional speed and consistency	 | Optimized for query performance and flexibility |
-| Data freshness	 | Real-time	                                         | Near-real-time or batch updated                 |
+| Purpose         | Handle real-time transactions                      | Analyze large volumes of historical data        |
+| Focus           | Fast reads/writes for day-to-day operations        | Complex queries for business insights           |
+| Speed           | Optimized for transactional speed and consistency  | Optimized for query performance and flexibility |
+| Data freshness  | Real-time                                          | Near-real-time or batch updated                 |
 
 ## [Gradle Lifecycle](https://docs.gradle.org/current/userguide/build_lifecycle.html)
 
@@ -147,17 +153,17 @@ Gradle goes through three main phases during build
 
 1. Initialization
 
-- Gradle determines which projects are involved 
+- Gradle determines which projects are involved
 - Gradle reads `settings.gradle.kts`
 
-2. Configuration Phase
+1. Configuration Phase
 
 - Gradle evaluates all `build.gradle(.kts)` scripts
 - All tasks are created and configured
 - The entire task graph is built, even if you only run one task
 - This phase sets up inputs/outputs, dependencies, and logic
 
-3. Execution
+1. Execution
 
 - Only the tasks explicitly requested, and their dependencies, are executed
 - Each task's `doFirst`, `doLast`, or actions are called here
@@ -193,27 +199,27 @@ Each stage must satisfy the previous stage's requirements.
 - Each column has a unique name
 - The order in which data is stored does not matter
 
-2. Second Normal Form (`2NF`): Eliminating Partial Dependency
+1. Second Normal Form (`2NF`): Eliminating Partial Dependency
 
 Every non-prime attribute (non-key attribute) must depend on the entire primary key, not just a part
 of it.
 
-3. Third Normal Form (`3NF`): Eliminating Transitive Dependency
+1. Third Normal Form (`3NF`): Eliminating Transitive Dependency
 
 Non-prime attributes should not depend on other non-prime attributes.
 
-4. Boyce-Codd Normal Form (`BCNF`): A stronger form of 3NF
+1. Boyce-Codd Normal Form (`BCNF`): A stronger form of 3NF
 
 A stricter version of `3NF` where for every non-trivial functional dependency (`X` → `Y`), `X` must be
 a superkey (a unique identifier for a record in the table).
 
-5. Fourth Normal Form (`4NF`): Removing Multi-Valued Dependencies
+1. Fourth Normal Form (`4NF`): Removing Multi-Valued Dependencies
 
 A table is in `4NF` if it is in `BCNF` and has no multivalued dependencies. A multivalued dependency
 occurs when one attribute determines another, and both attributes are independent of all other
 attributes in the table.
 
-6. Fifth Normal Form (`5NF`): Eliminating Join Dependency
+1. Fifth Normal Form (`5NF`): Eliminating Join Dependency
 
 When a table is in `4NF` and all join dependencies are removed. This form ensures that every table is
 fully decomposed into smaller tables that are logically connected without losing information.
@@ -262,7 +268,7 @@ represent the number of requests served, tasks completed, or errors.
 ### Gauge
 
 A **gauge** is a metric that represents a single numerical value that can arbitrarily go up and down.
-Gauges are typically used for measured values like temperatures or current memory usage, but also 
+Gauges are typically used for measured values like temperatures or current memory usage, but also
 "counts" that can go up and down, like the number of concurrent requests.
 
 ### Histogram
@@ -276,7 +282,7 @@ a base metric name of `<basename>` exposes multiple time series during a scrape
 - the total sum of all observed values, exposed as `<basename>_sum`
 - the count of events that have been observed, exposed as `<basename>_count` (identical to
   `<basename>_bucket{le="+Inf"}` above)
- 
+
 ### Summary
 
 Similar to a histogram, a summary samples observations (usually things like request durations and
@@ -290,7 +296,7 @@ metric name of `<basename>` exposes multiple time series during a scrape:
 
 ### [Summary vs Histogram](https://prometheus.io/docs/practices/histograms/)
 
-If we use a **summary**, we control the error in the dimension of φ. If we use a **histogram**, we 
+If we use a **summary**, we control the error in the dimension of φ. If we use a **histogram**, we
 control the error in the dimension of the observed value (via choosing the appropriate bucket
 layout). With a broad distribution, small changes in φ result in large deviations in the observed
 value. With a sharp distribution, a small interval of observed values covers a large interval of φ.
@@ -307,11 +313,11 @@ Two rules of thumb
 | Aspect          | Partitioning                                                                        | Sharding                                                      |
 |:----------------|-------------------------------------------------------------------------------------|---------------------------------------------------------------|
 | Definition      | Dividing a single database/table into parts (partitions) based on a key or strategy | Splitting data across multiple databases or servers (shards)  |
-| Scope           | Within a single database instance                                                   | 	Across multiple database instances                           |
-| Managed By	     | Usually the database engine itself	                                                 | Often requires application-level logic or external middleware |
-| Goal            | 	Improve query performance and data organization                                    | Enable horizontal scaling, handle very large datasets         |
-| Failure Domain	 | All partitions are on the same DB — one server fails, all partitions are down	      | Each shard is independent — one shard down ≠ total failure    |
-| Examples        | Table partitioning in PostgreSQL by date range	                                     | User data sharded by user ID hash across 5 database servers   |
+| Scope           | Within a single database instance                                                   |  Across multiple database instances                           |
+| Managed By      | Usually the database engine itself                                                  | Often requires application-level logic or external middleware |
+| Goal            |  Improve query performance and data organization                                    | Enable horizontal scaling, handle very large datasets         |
+| Failure Domain  | All partitions are on the same DB — one server fails, all partitions are down       | Each shard is independent — one shard down ≠ total failure    |
+| Examples        | Table partitioning in PostgreSQL by date range                                      | User data sharded by user ID hash across 5 database servers   |
 
 ## [OSI](https://en.wikipedia.org/wiki/OSI_model)
 
@@ -324,6 +330,3 @@ Two rules of thumb
 | 3 | `Network`      | Packet, Datagram   | Structuring and managing a multi-node network, including addressing, routing and traffic control                                                 |
 | 2 | `Data link`    | Frame              | Transmission of data frames between two nodes connected by a physical layer                                                                      |
 | 1 | `Physical`     | Bit, Symbol        | Transmission and reception of raw bit streams over a physical medium                                                                             |
-
-
-
