@@ -1,0 +1,25 @@
+type: marketplace
+title: Coroutines and Channels
+language: English
+summary: "In this course, you'll learn how to use coroutines in IntelliJ IDEA to perform\
+  \ network requests without blocking the underlying thread or callbacks. You'll learn:\
+  \ <ul> <li>Why and how to use suspending functions to perform network requests.</li>\
+  \ <li>How to send requests concurrently using coroutines.</li> <li>How to share\
+  \ information between different coroutines using channels.</li> </ul> This course\
+  \ is based on <a href=\"https://kotlinlang.org/docs/coroutines-and-channels.html\"\
+  >Coroutines and Channels tutorial</a>"
+programming_language: Kotlin
+content:
+  - Before you start
+  - Coroutines
+  - Feedback survey
+additional_files:
+  - name: TODO.txt
+  - name: README.md
+  - name: build.gradle
+  - name: contributing.md
+  - name: settings.gradle
+  - name: gradle/wrapper/gradle-wrapper.properties
+mode: Study
+feedback_link: https://plugins.jetbrains.com/plugin/23312-coroutines-and-channels/reviews
+yaml_version: 5

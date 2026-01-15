@@ -1,0 +1,135 @@
+type: edu
+files:
+  - name: resources/logback.xml
+    visible: false
+    learner_created: false
+  - name: resources/ajax-loader.gif
+    visible: false
+    is_binary: true
+    learner_created: false
+  - name: src/tasks/Aggregation.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request4Suspend.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request1Blocking.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request6Progress.kt
+    visible: false
+    learner_created: false
+  - name: src/tasks/Request7Channels.kt
+    visible: false
+    learner_created: false
+  - name: src/tasks/Request3Callbacks.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request2Background.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request5Concurrent.kt
+    visible: true
+    placeholders:
+      - offset: 188
+        length: 384
+        placeholder_text: TODO()
+        initial_state:
+          length: 6
+          offset: 182
+        initialized_from_dependency: false
+        encrypted_possible_answer: 0es1sZX7MaI0S9kjbhJy6j4jFdMml2kOD3tI//UbH/XTwb0A6jLhhSc9cu8n20jILnmPySNFQGbPI9e3WOkOvvTlAlXeLRuYZijgPhCkTo7eNMEXdEpdtXpfBZ1YhV2t8LRnUAdbEhYD/ufacUjNFdQhgrj+AfUYFrX5ofgQKyzuLcLvrafneKuv0NekPzSIg0dGkC/m5k1YFs7JN4VieVR82Xry30pzb+bpDrXuHijnTTBlUNXGAd1e4zQelT3+MqkyUQHG+s84+ZqJbXZzepDTJ+i2A+WbDE+Ezqu65cg4Te5LdZPAaLBKwl2dIkFOUGf5IGSvhTujv8TnGO19gOzMXXvh4Y8wPurJK2vhkFcBonqQPCNaOO3NZIQtw9vvYbzY6vwn5k0GWBdVxY2KE5KAr/BTI34mNV27C9D0hO0kqDOXW+6xMO1MiegW+nI5hKpTivt5Yg0Mb3n4/8SbUAPHKXwL4Kyq4mIAFdajfguG6XjsGfQDdAMeGcj5Oh34mbJtElRPRxp31TMXwgM6H1vQRWI/hTkYGMNwbNS4riB7iMsiEFcLHdgaURYiN0y+ivdGOsS6xpKPdAeZLQSZBRui2FLmD9SAGWM/ep4sws8=
+        selected: true
+        status: Solved
+        student_answer: |2-
+              val repos = service
+                  .getOrgRepos(req.org)
+                  .also { logRepos(req, it) }
+                  .bodyList()
+        
+              val deferreds = repos.map { repo ->
+                  async(Dispatchers.Default) {
+                      service.getRepoContributors(req.org, repo.name)
+                          .also { logUsers(repo, it) }
+                          .bodyList()
+                  }
+              }
+        
+              deferreds.awaitAll().flatten().aggregate()
+    learner_created: false
+  - name: src/tasks/Request5NotCancellable.kt
+    visible: false
+    learner_created: false
+  - name: src/samples/SamplesLogger.kt
+    visible: true
+    learner_created: false
+  - name: src/samples/ChannelsSample.kt
+    visible: false
+    learner_created: false
+  - name: src/samples/ConcurrencySample.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/main.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/Logger.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/Params.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/Contributors.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/GitHubService.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/ContributorsUI.kt
+    visible: true
+    learner_created: false
+  - name: build.gradle
+    visible: true
+    learner_created: false
+  - name: gradle.properties
+    visible: true
+    learner_created: false
+  - name: settings.gradle
+    visible: true
+    learner_created: false
+  - name: test/tasks/AggregationKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request4SuspendKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request1BlockingKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request3CallbacksKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/contributors/testData.kt
+    visible: true
+    learner_created: false
+  - name: test/contributors/MockGithubService.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request5ConcurrentKtTest.kt
+    visible: true
+    learner_created: false
+  - name: images/concurrency.png
+    visible: false
+    is_binary: true
+    learner_created: false
+  - name: test/tasks/Request2BackgroundKtTest.kt
+    visible: true
+    learner_created: false
+  - name: images/concurrency_dark.png
+    visible: false
+    is_binary: true
+    learner_created: false
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Mon, 12 Jan 2026 12:50:25 UTC"
+record: 8

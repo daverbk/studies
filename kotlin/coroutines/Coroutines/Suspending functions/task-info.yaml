@@ -1,0 +1,109 @@
+type: edu
+files:
+  - name: resources/logback.xml
+    visible: false
+    learner_created: false
+  - name: resources/ajax-loader.gif
+    visible: false
+    is_binary: true
+    learner_created: false
+  - name: src/tasks/Aggregation.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request4Suspend.kt
+    visible: true
+    placeholders:
+      - offset: 439
+        length: 0
+        placeholder_text: TODO()
+        initial_state:
+          length: 6
+          offset: 134
+        initialized_from_dependency: false
+        encrypted_possible_answer: 0es1sZX7MaI0S9kjbhJy6j4jFdMml2kOD3tI//UbH/XTwb0A6jLhhSc9cu8n20jILnmPySNFQGbPI9e3WOkOvvTlAlXeLRuYZijgPhCkTo7eNMEXdEpdtXpfBZ1YhV2tOOYNAUfGztq2Mic5SBXkYMRXs6bPHvR40Klk96PZy4Iphqso6gzFvOwQydUVP58PKEOgsdCyIwIaS9r2AJDBpXb8wHo8Hcoq1OwtnWyyHV7LrhSWm6eGlTQie/GXeiNvQctLdmq+HxncDKrsJUcqPa+oWqUIdOjGAuF24DL4LY2p3SYmEMvr5ev628CpyDrVuLOWbnJtoX94uBUDXMvycXoq1ghoh5hAiPCTO34O+rPptsSAKbeNMl0oR8BSltsd
+        selected: false
+        status: Solved
+    learner_created: false
+  - name: src/tasks/Request1Blocking.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request6Progress.kt
+    visible: false
+    learner_created: false
+  - name: src/tasks/Request7Channels.kt
+    visible: false
+    learner_created: false
+  - name: src/tasks/Request3Callbacks.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request2Background.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request5Concurrent.kt
+    visible: false
+    learner_created: false
+  - name: src/tasks/Request5NotCancellable.kt
+    visible: false
+    learner_created: false
+  - name: src/samples/SamplesLogger.kt
+    visible: false
+    learner_created: false
+  - name: src/samples/ChannelsSample.kt
+    visible: false
+    learner_created: false
+  - name: src/samples/ConcurrencySample.kt
+    visible: false
+    learner_created: false
+  - name: src/contributors/main.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/Logger.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/Params.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/Contributors.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/GitHubService.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/ContributorsUI.kt
+    visible: true
+    learner_created: false
+  - name: build.gradle
+    visible: true
+    learner_created: false
+  - name: gradle.properties
+    visible: true
+    learner_created: false
+  - name: settings.gradle
+    visible: true
+    learner_created: false
+  - name: test/tasks/AggregationKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request1BlockingKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request3CallbacksKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/contributors/testData.kt
+    visible: true
+    learner_created: false
+  - name: test/contributors/MockGithubService.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request4SuspendKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request2BackgroundKtTest.kt
+    visible: true
+    learner_created: false
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Mon, 12 Jan 2026 11:40:20 UTC"
+record: 6

@@ -1,0 +1,345 @@
+type: edu
+files:
+  - name: resources/logback.xml
+    visible: false
+    learner_created: false
+  - name: resources/ajax-loader.gif
+    visible: false
+    is_binary: true
+    learner_created: false
+  - name: src/tasks/Aggregation.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request4Suspend.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request1Blocking.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request6Progress.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request7Channels.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request3Callbacks.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request2Background.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request5Concurrent.kt
+    visible: true
+    learner_created: false
+  - name: src/tasks/Request5NotCancellable.kt
+    visible: true
+    learner_created: false
+  - name: src/samples/SamplesLogger.kt
+    visible: true
+    learner_created: false
+  - name: src/samples/ChannelsSample.kt
+    visible: true
+    learner_created: false
+  - name: src/samples/ConcurrencySample.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/main.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/Logger.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/Params.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/Contributors.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/GitHubService.kt
+    visible: true
+    learner_created: false
+  - name: src/contributors/ContributorsUI.kt
+    visible: true
+    learner_created: false
+  - name: build.gradle
+    visible: true
+    learner_created: false
+  - name: gradle.properties
+    visible: true
+    learner_created: false
+  - name: settings.gradle
+    visible: true
+    learner_created: false
+  - name: test/tasks/AggregationKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request4SuspendKtTest.kt
+    visible: true
+    placeholders:
+      - offset: 462
+        length: 0
+        placeholder_text: TODO()
+        initial_state:
+          length: 6
+          offset: 424
+        initialized_from_dependency: false
+        encrypted_possible_answer: rb1sjK5grqv6DLM0ITwcggrwiXGIQJolY29Qvep8Yeh34Yt90CUTqD3z0uZ9JoB9
+        selected: false
+        status: Unchecked
+      - offset: 496
+        length: 8
+        placeholder_text: runBlocking
+        initial_state:
+          length: 11
+          offset: 465
+        initialized_from_dependency: false
+        encrypted_possible_answer: qu6XCBBtc6bmRjnDMqxbbw==
+        selected: false
+        status: Unchecked
+      - offset: 541
+        length: 0
+        placeholder_text: System.currentTimeMillis()
+        initial_state:
+          length: 26
+          offset: 503
+        initialized_from_dependency: false
+        encrypted_possible_answer: qY6SEc+NYPrpZwZmsLgGyw==
+        selected: false
+        status: Unchecked
+      - offset: 752
+        length: 11
+        placeholder_text: System.currentTimeMillis()
+        initial_state:
+          length: 26
+          offset: 740
+        initialized_from_dependency: false
+        encrypted_possible_answer: qY6SEc+NYPrpZwZmsLgGyw==
+        selected: false
+        status: Unchecked
+      - offset: 776
+        length: 298
+        placeholder_text: |-
+          /*
+                  // TODO: uncomment this assertion
+                  Assert.assertEquals(
+                      "The calls run consequently, so the total virtual time should be 4000 ms: " +
+                              "1000 for repos request plus (1000 + 1200 + 800) = 3000 for sequential contributors requests)",
+                      expectedResults.timeFromStart, totalTime
+                  )
+                  */
+        initial_state:
+          length: 353
+          offset: 779
+        initialized_from_dependency: false
+        encrypted_possible_answer: y0C8TOl2OvtBzOm4N06XJlX3jwLlHT29Uj9kbtqxWh51n/1tlirDW8NVk3ESw8yCuUqi9vsblS1E+HPfI3uf2gae/Kqol7LuqHjjKnv+9lWS6yVvS2ltV0588kIQfXUNIOM55Rq9fCEVBmJ1Zk2EnFHJ8AyfTDhzgG6hOXVdzpHbEk09D1lJ1Lkt6iy/vBkUqY/jW8sp/nCyATP6/uq9d3oGNzAut32Hg+lMRwaVTdaTntuaQYnxBcUx6b7rK/eC3OgJjPLyp/rIbhktebMq0zcjx2q+ub2AR/LU3d52S+seT4yEsNs69C5phnUbOn/0bOreWMbxK5ExCdO0Wx6Jssw1vNPWp947GweO2BMKG1gaqvKEbpgJojHD1Riq17LVdbTHOShSc8VL+oxzRtMJEg==
+        selected: false
+        status: Unchecked
+    learner_created: false
+  - name: test/tasks/Request1BlockingKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request6ProgressKtTest.kt
+    visible: true
+    placeholders:
+      - offset: 454
+        length: 0
+        placeholder_text: TODO()
+        initial_state:
+          length: 6
+          offset: 417
+        initialized_from_dependency: false
+        encrypted_possible_answer: rb1sjK5grqv6DLM0ITwcggrwiXGIQJolY29Qvep8Yeh34Yt90CUTqD3z0uZ9JoB9
+        selected: false
+        status: Unchecked
+      - offset: 489
+        length: 8
+        placeholder_text: runBlocking
+        initial_state:
+          length: 11
+          offset: 459
+        initialized_from_dependency: false
+        encrypted_possible_answer: qu6XCBBtc6bmRjnDMqxbbw==
+        selected: false
+        status: Unchecked
+      - offset: 523
+        length: 11
+        placeholder_text: System.currentTimeMillis()
+        initial_state:
+          length: 26
+          offset: 497
+        initialized_from_dependency: false
+        encrypted_possible_answer: qY6SEc+NYPrpZwZmsLgGyw==
+        selected: false
+        status: Unchecked
+      - offset: 715
+        length: 11
+        placeholder_text: System.currentTimeMillis()
+        initial_state:
+          length: 26
+          offset: 716
+        initialized_from_dependency: false
+        encrypted_possible_answer: qY6SEc+NYPrpZwZmsLgGyw==
+        selected: false
+        status: Unchecked
+      - offset: 739
+        length: 184
+        placeholder_text: |-
+          /*
+                      // TODO: uncomment this assertion
+                      Assert.assertEquals("Expected intermediate result after virtual ${expected.timeFromStart} ms:",
+                          expected.timeFromStart, time)
+                      */
+        initial_state:
+          length: 217
+          offset: 755
+        initialized_from_dependency: false
+        encrypted_possible_answer: D3oXKGH2wrwJvO4Sly0p0XvbBl9pWVBo3BZgy39HHemSJQSB+mVz6dpa1hVb9etbmjsFXpDdKQfFJW60d1VwUpgd6F/la88W5wL35RE5V2l+P9GOptX0o8xyVX7GFhQxrn9NzR0o9mGea4Ikpxo23QD1q1O6AkZSyHtD+6QHsOLylHtf8tSfJvI8NUpCS/Lb/1wmTiEzzOVHBovK03B1YA==
+        selected: false
+        status: Unchecked
+    learner_created: false
+  - name: test/tasks/Request7ChannelsKtTest.kt
+    visible: true
+    placeholders:
+      - offset: 426
+        length: 0
+        placeholder_text: TODO()
+        initial_state:
+          length: 6
+          offset: 389
+        initialized_from_dependency: false
+        encrypted_possible_answer: rb1sjK5grqv6DLM0ITwcggrwiXGIQJolY29Qvep8Yeh34Yt90CUTqD3z0uZ9JoB9
+        selected: false
+        status: Unchecked
+      - offset: 461
+        length: 8
+        placeholder_text: runBlocking
+        initial_state:
+          length: 11
+          offset: 431
+        initialized_from_dependency: false
+        encrypted_possible_answer: qu6XCBBtc6bmRjnDMqxbbw==
+        selected: false
+        status: Unchecked
+      - offset: 495
+        length: 11
+        placeholder_text: System.currentTimeMillis()
+        initial_state:
+          length: 26
+          offset: 469
+        initialized_from_dependency: false
+        encrypted_possible_answer: qY6SEc+NYPrpZwZmsLgGyw==
+        selected: false
+        status: Unchecked
+      - offset: 697
+        length: 11
+        placeholder_text: System.currentTimeMillis()
+        initial_state:
+          length: 26
+          offset: 686
+        initialized_from_dependency: false
+        encrypted_possible_answer: qY6SEc+NYPrpZwZmsLgGyw==
+        selected: false
+        status: Unchecked
+      - offset: 721
+        length: 184
+        placeholder_text: |-
+          /*
+                      // TODO: uncomment this assertion
+                      Assert.assertEquals("Expected intermediate result after virtual ${expected.timeFromStart} ms:",
+                          expected.timeFromStart, time)
+                      */
+        initial_state:
+          length: 217
+          offset: 725
+        initialized_from_dependency: false
+        encrypted_possible_answer: D3oXKGH2wrwJvO4Sly0p0XvbBl9pWVBo3BZgy39HHenI006xuGFnfA+l4ydFi3AwEKa867iDAF4X14UzogsK+8Q5NLjCBrI1Y2xzDJZCbMZzmLm8opyz4TSIvxuOlO6aJ8hLHzuBmLvfJtGPfEaBFz7uMrBtWTtcN9thwRxSiF8qm5to7sx7YFL6Uc3Qwk8L2QxmatJUxi/ajU5Xtyhe34D74hEEUUh1Sv/h8c7ZQXdVuytPvd1qxRjNJCWbaatj
+        selected: false
+        status: Unchecked
+    learner_created: false
+  - name: test/tasks/Request3CallbacksKtTest.kt
+    visible: true
+    learner_created: false
+  - name: test/tasks/Request5ConcurrentKtTest.kt
+    visible: true
+    placeholders:
+      - offset: 500
+        length: 0
+        placeholder_text: TODO()
+        initial_state:
+          length: 6
+          offset: 462
+        initialized_from_dependency: false
+        encrypted_possible_answer: rb1sjK5grqv6DLM0ITwcggrwiXGIQJolY29Qvep8Yeh34Yt90CUTqD3z0uZ9JoB9
+        selected: false
+        status: Unchecked
+      - offset: 537
+        length: 8
+        placeholder_text: runBlocking
+        initial_state:
+          length: 11
+          offset: 506
+        initialized_from_dependency: false
+        encrypted_possible_answer: qu6XCBBtc6bmRjnDMqxbbw==
+        selected: false
+        status: Unchecked
+      - offset: 571
+        length: 11
+        placeholder_text: System.currentTimeMillis()
+        initial_state:
+          length: 26
+          offset: 544
+        initialized_from_dependency: false
+        encrypted_possible_answer: qY6SEc+NYPrpZwZmsLgGyw==
+        selected: false
+        status: Unchecked
+      - offset: 809
+        length: 11
+        placeholder_text: System.currentTimeMillis()
+        initial_state:
+          length: 26
+          offset: 805
+        initialized_from_dependency: false
+        encrypted_possible_answer: qY6SEc+NYPrpZwZmsLgGyw==
+        selected: false
+        status: Unchecked
+      - offset: 833
+        length: 315
+        placeholder_text: |-
+          /*
+                  // TODO: uncomment this assertion
+                  Assert.assertEquals(
+                      "The calls run concurrently, so the total virtual time should be 2200 ms: " +
+                              "1000 ms for repos request plus max(1000, 1200, 800) = 1200 ms for concurrent contributors requests)",
+                      expectedConcurrentResults.timeFromStart, totalTime
+                  )
+                  */
+        initial_state:
+          length: 370
+          offset: 844
+        initialized_from_dependency: false
+        encrypted_possible_answer: y0C8TOl2OvtBzOm4N06XJlX3jwLlHT29Uj9kbtqxWh51n/1tlirDW8NVk3ESw8yC/oKta7Wr4b6ijjj2QniTqm6aEwdc+lUw+mSZTMyTh6hcpwQCirx8jo3pbCfwqpem2ZJWHCtDorT7bRZWl/qClIiOoBSuuEVdPfJfCvSRv+8FS1A7YMsHt1cvrdcR8qp6DHm3fer3PHxMeCCo3EL3lR2IO/Xhp7d/3ahLo28Us+Vs2dklGYu+s2yFDvA7QAUCBHEmFsh73cRNyMIwZPEWgLL5Qc/mC6x0664Imik+dOUduSveBlJHGyQAN0ZN6NYkfXClLDLYQjLbSdnbRaOnfnjq/watTWpnrHGLadZfYkCPXKZ09xJsSXhBCMTXzoUEyuP9epMEde4Hu2h8WEc5/+SYH36iCLOVC/Jp+lVllXU=
+        selected: false
+        status: Unchecked
+    learner_created: false
+  - name: test/contributors/testData.kt
+    visible: true
+    learner_created: false
+  - name: test/contributors/MockGithubService.kt
+    visible: true
+    learner_created: false
+  - name: images/time-comparison.png
+    visible: false
+    is_binary: true
+    learner_created: false
+  - name: test/tasks/Request2BackgroundKtTest.kt
+    visible: true
+    learner_created: false
+  - name: images/time-comparison_dark.png
+    visible: false
+    is_binary: true
+    learner_created: false
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Thu, 15 Jan 2026 15:50:52 UTC"
+record: -1
