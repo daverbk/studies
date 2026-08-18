@@ -1,10 +1,10 @@
-name: Deploy Conspectus
+name: Deploy Notes
 
 on:
   workflow_dispatch:
 
 env:
-  conspectus-dir: ./conspectus
+  notes-dir: ./notes
 
 jobs:
   build:
@@ -20,22 +20,22 @@ jobs:
         with:
           node-version: 18
           cache: npm
-          cache-dependency-path: ${{ env.conspectus-dir }}/package-lock.json
+          cache-dependency-path: ${{ env.notes-dir }}/package-lock.json
 
       - name: Install dependencies
         run: |
-          cd ${{ env.conspectus-dir }}
+          cd ${{ env.notes-dir }}
           npm install
 
       - name: Build website
         run: |
-          cd ${{ env.conspectus-dir }}
+          cd ${{ env.notes-dir }}
           npm run build
 
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ env.conspectus-dir }}/build
+          path: ${{ env.notes-dir }}/build
 
   deploy:
     name: Deploy to GitHub Pages

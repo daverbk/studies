@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Conspectus',
+  title: 'Study Notes',
   url: 'https://daverbk.github.io',
   baseUrl: '/studies/',
   organizationName: 'daverbk',
@@ -47,7 +47,7 @@ const config: Config = {
     },
 
     navbar: {
-      title: 'Conspectus',
+      title: 'Study Notes',
       items: [
         {
           href: 'https://github.com/daverbk/studies',
