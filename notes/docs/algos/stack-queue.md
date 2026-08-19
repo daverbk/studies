@@ -91,7 +91,7 @@ only one part of the algorithm.
 
 Pseudocode:
 
-```
+```python
 stack = []
 for num in nums:
     while stack.length > 0 AND stack.top >= num:
@@ -125,7 +125,7 @@ class Solution {
 
 ## Fast and slow pointers
 
-```
+```python
 // head is the head node of a linked list
 function fn(head):
     slow = head

@@ -193,34 +193,32 @@ structure and performance of a database.
 
 Each stage must satisfy the previous stage's requirements.
 
-1. First Normal Form (`1NF`): Eliminating Duplicate Records
+1: First Normal Form (`1NF`): Eliminating Duplicate Records
 
 - All columns contain atomic values (i.e., indivisible values)
 - Each row is unique (i.e., no duplicate rows)
 - Each column has a unique name
 - The order in which data is stored does not matter
 
-1. Second Normal Form (`2NF`): Eliminating Partial Dependency
+2: Second Normal Form (`2NF`): Eliminating Partial Dependency
 
 Every non-prime attribute (non-key attribute) must depend on the entire primary key, not just a part
 of it.
 
-1. Third Normal Form (`3NF`): Eliminating Transitive Dependency
+3: Third Normal Form (`3NF`): Eliminating Transitive Dependency
 
-Non-prime attributes should not depend on other non-prime attributes.
-
-1. Boyce-Codd Normal Form (`BCNF`): A stronger form of 3NF
+Non-prime attributes should not depend on other non-prime attributes. Boyce-Codd Normal Form (`BCNF`): A stronger form of 3NF
 
 A stricter version of `3NF` where for every non-trivial functional dependency (`X` → `Y`), `X` must be
 a superkey (a unique identifier for a record in the table).
 
-1. Fourth Normal Form (`4NF`): Removing Multi-Valued Dependencies
+4: Fourth Normal Form (`4NF`): Removing Multi-Valued Dependencies
 
 A table is in `4NF` if it is in `BCNF` and has no multivalued dependencies. A multivalued dependency
 occurs when one attribute determines another, and both attributes are independent of all other
 attributes in the table.
 
-1. Fifth Normal Form (`5NF`): Eliminating Join Dependency
+5: Fifth Normal Form (`5NF`): Eliminating Join Dependency
 
 When a table is in `4NF` and all join dependencies are removed. This form ensures that every table is
 fully decomposed into smaller tables that are logically connected without losing information.

@@ -85,7 +85,7 @@ pre-process, it's an investment that will save us a huge amount of time during t
 A prefix sum is a great tool whenever a problem involves sums of a subarray. It only costs `O(n)`to build but allows all
 future subarray queries to be `O(1)`.
 
-```
+```python
 prefix = [nums[0]]
 for (int i = 1; i < nums.length; i++)
     prefix.append(nums[i] + prefix[prefix.length - 1])
@@ -99,7 +99,7 @@ for (int i = 1; i < nums.length; i++)
    started at the first index, decrement the pointer that started at the last index, or both. Deciding which pointers to
    move will depend on the problem we are trying to solve.
 
-```
+```python
 function fn(arr):
     left = 0
     right = arr.length - 1
@@ -122,7 +122,7 @@ function fn(arr):
    of its respective iterable when the loop finishes. Sometimes, we need to iterate through all elements - if this is
    the case, you will need to write extra code here to make sure both iterables are exhausted
 
-```
+```python
 function fn(arr1, arr2):
     i = j = 0
     while i < arr1.length AND j < arr2.length:
@@ -175,7 +175,7 @@ Example problems:
 4. As we add and remove elements, we are "sliding" our window along the input from left to right. it always slides along
    to the right, until we reach the end of the input
 
-```
+```python
 function fn(arr):
 left = 0
 for (int right = 0; right < arr.length; right++):
@@ -194,7 +194,7 @@ Do some logic to "add" element at arr[right] to window
 1. Start by building the first window (from index `0` to `k - 1`)
 2. Once we have a window of size `k`, if we add an element at index `i`, we need to remove the element at index `i - k`
 
-```
+```python
 function fn(arr, k):
     curr = some data to track the window
 

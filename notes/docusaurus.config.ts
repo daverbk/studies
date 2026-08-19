@@ -43,7 +43,7 @@ const config: Config = {
   themeConfig: {
 
     colorMode: {
-      defaultMode: 'dark',
+      defaultMode: 'light',
       disableSwitch: true,
       respectPrefersColorScheme: false
     },
@@ -53,8 +53,9 @@ const config: Config = {
       items: [],
     },
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      theme: prismThemes.nightOwl,
+      darkTheme: prismThemes.nightOwl,
+      additionalLanguages: ['java', 'kotlin'],
     },
   } satisfies Preset.ThemeConfig,
 };
