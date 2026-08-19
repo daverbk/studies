@@ -11,4 +11,4 @@ Hey there!
 These are [`davidrabko`](https://github.com/davidrabko)'s study notes.
 
 If for some magical reason you would like to contribute to these notes
-please feel more than welcome to drop an PR to the [repo](https://github.com/daverbk/studies).
+please feel more than welcome to drop a PR to the [repo](https://github.com/davidrabko/studies).

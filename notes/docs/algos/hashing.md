@@ -2,7 +2,7 @@
 slug: /algos/hashing
 title: Hashing 🔢
 description: Hash sets and maps, counting / checking for existence.
-sidebar_position: 4 
+sidebar_position: 4
 sidebar_custom_props:
   emoji: 🔢 
 ---

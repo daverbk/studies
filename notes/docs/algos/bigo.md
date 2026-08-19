@@ -2,9 +2,9 @@
 slug: /algos/bigo
 title: Big O Notation 💪
 description: Definition and basic complexities.
-sidebar_position: 1 
+sidebar_position: 1
 sidebar_custom_props:
-  emoji: 💪 
+  emoji: 💪
 ---
 
 # Big O

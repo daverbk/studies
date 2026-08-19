@@ -1,5 +1,5 @@
-import {duotoneDark, oneDark, themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { duotoneDark, oneDark, themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
@@ -25,7 +25,9 @@ const config: Config = {
           sidebarPath: './sidebars.ts'
         },
         blog: false,
-        theme: {},
+        theme: {
+          customCss: './src/theme/css/disable-pagination.css',
+        },
       } satisfies Preset.Options,
     ],
   ],
@@ -42,19 +44,13 @@ const config: Config = {
 
     colorMode: {
       defaultMode: 'dark',
-      disableSwitch: false,
+      disableSwitch: true,
       respectPrefersColorScheme: false
     },
 
     navbar: {
       title: 'Study Notes',
-      items: [
-        {
-          href: 'https://github.com/daverbk/studies',
-          label: 'GitHub',
-          position: 'right',
-        },
-      ],
+      items: [],
     },
     prism: {
       theme: prismThemes.github,
