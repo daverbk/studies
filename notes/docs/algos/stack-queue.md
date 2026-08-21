@@ -4,7 +4,7 @@ title: Stack & Queue 🧑‍🤝‍🧑
 description: FIFO & LIFO, monotonic stacks & queues.
 sidebar_position: 5
 sidebar_custom_props:
-  emoji: 🃏
+  emoji: 🧑‍🤝‍🧑
 ---
 
 # Stack & Queue
