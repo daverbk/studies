@@ -2,6 +2,11 @@ name: Deploy Notes
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'notes/**'
 
 env:
   notes-dir: ./notes
