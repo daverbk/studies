@@ -13,12 +13,12 @@ sidebar_custom_props:
 
 ### Binary Trees
 
-| Operation       | Complexity |
-| --------------- | ---------- |
-| `dfs traversal` | `O(n)`     |
-| `bfs traversal` | `O(n)`     |
+| Operation       | Time Complexity | Space Complexity                                                                                  |
+| --------------- | --------------- | ------------------------------------------------------------------------------------------------- |
+| `dfs traversal` | `O(n)`          | `O(n)` when the tree is just a straight line, optimistically `O(log n)` if the tree is "complete" |
+| `bfs traversal` | `O(n)`          | `O(n)`                                                                                            |
 
-# Terminology
+## Terminology
 
 The **root** node is the node at the "top" of the tree, the **root** is the only node that has no parent. In a tree, a node cannot have more than one parent. In a binary tree, all nodes have a maximum of two **children**. These children are referred to as the left child and the right child.
 
@@ -27,6 +27,12 @@ If we have a node `A` with an edge to a node `B`, so `A` -> `B`, we call `A` the
 If a node has no children, it is called a **leaf** node. The **leaf** nodes are the **leaves** of the tree.
 
 The depth of a node is how far it is from the root node. The root has a depth of 0. Every child has a depth of `parentsDepth + 1`.
+
+:::note
+
+A "complete" binary tree is one where every level (except possibly the last) is full, and all the nodes in the last level are as left as possible.
+
+:::
 
 A **subtree** of a tree is a node and all its descendants.
 
@@ -40,7 +46,7 @@ graph TB
     C-->G((7))
 ```
 
-## In code
+## In Code
 
 ```java
 class TreeNode {
@@ -53,7 +59,7 @@ class TreeNode {
 }
 ```
 
-## Depth-first search
+## Depth-First Search
 
 You can think of the paths of a binary tree as branches growing from the root. DFS chooses a branch and goes as far down as possible. Once it fully explores the branch, it backtracks until it finds another unexplored branch.
 
@@ -66,7 +72,7 @@ Typical dfs goes like this:
 
 Each function call solves and returns the answer to the original problem as if the subtree rooted at the current node was the input.
 
-## The types of dfs
+### Types of DFS
 
 1. Preorder traversal
 
@@ -119,7 +125,7 @@ public void postorderDfs(Node node) {
 }
 ```
 
-## Iterative implementation
+### Iterative implementation
 
 ```java
 class Solution {
@@ -148,6 +154,47 @@ class Solution {
 }
 ```
 
-## Breadth-first search
+We are adding `node.left` before `node.right`. Popping from a stack removes the most recently added element, thus we are actually visiting the right subtree first.
 
+## Breadth-First Search
+
+In BFS, we traverse all nodes at a given depth before moving on to the next depth. BFS is implemented iteratively with a queue.
+
+```java
+public void printAllNodes(TreeNode root) {
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.add(root);
+
+    while (!queue.isEmpty()) {
+        int nodesInCurrentLevel = queue.size();
+        // do some logic here for the current level
+
+        for (int i = 0; i < nodesInCurrentLevel; i++) {
+            TreeNode node = queue.remove();
+
+            // do some logic here on the current node
+            System.out.println(node.val);
+
+            // put the next level onto the queue
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+        }
+    }
+}
 ```
+
+## DFS vs BFS
+
+In terms of binary tree algorithm problems, it is very rare to find a problem that using DFS is "better" than using BFS. However, implementing DFS is usually quicker because it requires less code, and is easier to implement using recursion, so for problems where BFS/DFS doesn't matter, most people end up using DFS.
+
+On the flip side, there are quite a few problems where using BFS makes way more sense algorithmically than using DFS. Usually, this applies to any problem where we want to handle the nodes according to their level.
+
+The main disadvantage of DFS is that you could end up wasting a lot of time looking for a value. Let's say that you had a huge tree, and you were looking for a value that is stored in the root's right child. If you do DFS prioritizing left before right, then you will search the entire left subtree, which could be hundreds of thousands if not millions of operations. Meanwhile, the node is literally one operation away from the root.
+
+The main disadvantage of BFS is that if the node you're searching for is near the bottom, then you will waste a lot of time searching through all the levels to reach the bottom.
+
+In terms of space complexity, DFS uses space linear with the height of the tree (the maximum depth), whereas BFS uses space linear with the level that has the most nodes. In some cases, DFS will use less space, in other cases, BFS will use less.
