@@ -18,6 +18,14 @@ sidebar_custom_props:
 | `dfs traversal` | `O(n)`          | `O(n)` when the tree is just a straight line, optimistically `O(log n)` if the tree is "complete" |
 | `bfs traversal` | `O(n)`          | `O(n)`                                                                                            |
 
+### Binary Search Trees
+
+| Operation | Time Complexity | Space Complexity                                                                                  |
+| --------- | --------------- | ------------------------------------------------------------------------------------------------- |
+| `search`  | `O(log n)`      | `O(n)` |
+| `add`     | `O(log n)`      | `O(n)`                                                                                            |
+| `remove`  | `O(log n)`      | `O(n)`                                                                                            |
+
 ## Terminology
 
 The **root** node is the node at the "top" of the tree, the **root** is the only node that has no parent. In a tree, a node cannot have more than one parent. In a binary tree, all nodes have a maximum of two **children**. These children are referred to as the left child and the right child.
@@ -38,12 +46,12 @@ A **subtree** of a tree is a node and all its descendants.
 
 ```mermaid
 graph TB
-    A((5))-->B((2))
-    A-->C((3))
-    B-->D((4))
-    B-->E((9))
-    C-->F((6))
-    C-->G((7))
+    5((5))-->2((2))
+    5-->3((3))
+    2-->4((4))
+    2-->9((9))
+    3-->6((6))
+    3-->7((7))
 ```
 
 ## In Code
@@ -125,7 +133,7 @@ public void postorderDfs(Node node) {
 }
 ```
 
-### Iterative implementation
+### Iterative Implementation
 
 ```java
 class Solution {
@@ -198,3 +206,27 @@ The main disadvantage of DFS is that you could end up wasting a lot of time look
 The main disadvantage of BFS is that if the node you're searching for is near the bottom, then you will waste a lot of time searching through all the levels to reach the bottom.
 
 In terms of space complexity, DFS uses space linear with the height of the tree (the maximum depth), whereas BFS uses space linear with the level that has the most nodes. In some cases, DFS will use less space, in other cases, BFS will use less.
+
+## Binary Seach Tree
+
+BST is a type of binary tree, that satisfies the following characteristics:
+
+1. Values must be unique.
+2. For each node, all values in its left subtree are less than the value in the node, and all values in its right subtree are greater than the value in the node.
+
+```mermaid
+graph TD
+    8((8)) --> 4((4))
+    8 --> 12((12))
+    4 --> 2((2))
+    4 --> 6((6))
+    12 --> 10((10))
+    12 --> 14((14))
+```
+
+
+:::note
+
+An inorder DFS traversal prioritizing left before right on a BST will handle the nodes in sorted order.
+
+:::
